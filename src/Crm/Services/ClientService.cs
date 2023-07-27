@@ -1,6 +1,8 @@
 namespace Crm.Serices;
 
 using Crm.Entities;
+using Crm.Entities.Dtos;
+
 public sealed class ClientService
 {
     public Client CreateClient(ClientDto clientDto)

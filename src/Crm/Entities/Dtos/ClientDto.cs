@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crm.Entities
+namespace Crm.Entities.Dtos
 {
     public readonly struct ClientDto
     {
@@ -15,10 +15,7 @@ namespace Crm.Entities
         public string PassportNumber { get; init; }
         public Gender Gender { get; init; }
 
-        public ClientDto()
-        {
-
-        }
+       
 
     }
 }

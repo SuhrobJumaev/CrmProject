@@ -2,6 +2,8 @@
 using Crm.Entities;
 using Crm.Validators;
 using System.Text;
+using Crm.Entities.Dtos;
+using System.Reflection;
 
 ClientService clientService = new ClientService();
 OrderService orderService = new OrderService();
@@ -208,14 +210,17 @@ Order CreateOrder()
     }
 
 
-    Order newOrder = orderService.CreateOrder(
-        1, //Обычно Id генерируется в таблице, в БД, если конечно это не GUID
-        description,
-        price,
-        orderDate,
-        deliveryType,
-        deliveryAddress
-    );
+    OrderDto orderDto = new OrderDto()
+    {
+        Id = 1,
+        Description = description,
+        Price = price,
+        OrderDate = orderDate,
+        DeliveryType = deliveryType,
+        DeliveryAddress = deliveryAddress,
+    };
+
+    Order newOrder = orderService.CreateOrder(orderDto);
 
     return newOrder;
 }

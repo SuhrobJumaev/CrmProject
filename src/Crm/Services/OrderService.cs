@@ -1,26 +1,19 @@
 namespace Crm.Serices;
 using Crm.Entities;
+using Crm.Entities.Dtos;
 
 public class OrderService 
 {
-    public Order CreateOrder(
-        int id, 
-        string description, 
-        decimal price, 
-        DateTime orderDate, 
-        DeliveryType deliveryType, 
-        string deliveryAddress
-    )
+    public Order CreateOrder(OrderDto orderDto)
     {
         return new ()
         {
-            Id = id,
-            Description = description,
-            Price = price,
-            OrderDate = orderDate,
-            DeliveryType = deliveryType,
-            DeliveryAddress = deliveryAddress
-
+            Id = orderDto.Id,
+            Description = orderDto.Description,
+            Price = orderDto.Price,
+            OrderDate = orderDto.OrderDate,
+            DeliveryType = orderDto.DeliveryType,
+            DeliveryAddress = orderDto.DeliveryAddress
         };
     }
 }
