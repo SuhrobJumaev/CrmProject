@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\AlifAcademyC#\Crm-Practice\src\Crm\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\AlifAcademyC#\Crm-Practice\src\Crm\.editorconfig" />
+  </ItemGroup>
+
 </Project>

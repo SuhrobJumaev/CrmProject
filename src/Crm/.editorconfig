@@ -1,0 +1,43 @@
+
+# Правила форматирования для C#
+
+[*]
+indent_style = space
+indent_size = 4
+
+
+# Правила форматирования для файлов C#
+[*.cs]
+
+# Отступы внутри блоков кода
+csharp_indent_block_contents = true
+
+# Отступы внутри операторов using
+csharp_indent_using_directives = false
+
+# Правила переноса строк
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+csharp_new_line_after_property = true
+
+
+# Правила форматирования для комментариев
+[*.cs]
+
+# Отступы для комментариев
+csharp_indent_comment_contents = true
+
+# Отступы для XML-комментариев
+csharp_indent_xml_doc_comment_contents = true
+trim_trailing_whitespace = true
+
+# Правила форматирования для регионов кода
+[*.cs]
+# Отступы для регионов кода
+csharp_indent_region_contents = false
+

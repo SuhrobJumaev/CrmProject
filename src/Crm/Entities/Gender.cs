@@ -1,7 +1,7 @@
-namespace Crm.Entities;
+﻿namespace Crm.Entities;
 
 public enum Gender
 {
-    Male =1,
-    Femal =2,
+	Male = 1,
+	Femal = 2,
 }
