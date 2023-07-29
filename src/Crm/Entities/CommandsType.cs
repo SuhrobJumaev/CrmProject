@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Crm.Entities;
 
-namespace Crm.Entities
+public enum CommandsType : short
 {
-	public enum CommandsType : short
-	{
-		CreateClient = 1,
-		CreateOrder = 2,
-		Exit = 3,
-	}
+    CreateClient = 1,
+    CreateOrder = 2,
+    Exit = 3,
 }

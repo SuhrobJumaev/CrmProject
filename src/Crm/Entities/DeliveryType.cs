@@ -2,7 +2,7 @@
 
 public enum DeliveryType : short
 {
-	Express = 1,
-	Standart = 2,
-	Free = 3
+    Express = 1,
+    Standart = 2,
+    Free = 3
 }
