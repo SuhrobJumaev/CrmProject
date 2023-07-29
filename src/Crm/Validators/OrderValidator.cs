@@ -4,7 +4,7 @@ namespace Crm.Validators;
 
 public static class OrderValidator
 {
-    public static bool IsValidDescription(string description)
+    public static bool IsValidDescription(string? description)
     {
         if (string.IsNullOrEmpty(description) || string.IsNullOrWhiteSpace(description))
         {
@@ -14,7 +14,7 @@ public static class OrderValidator
         return true;
     }
 
-    public static bool IsValidPrice(string priceString, out decimal price)
+    public static bool IsValidPrice(string? priceString, out decimal price)
     {
         if (!decimal.TryParse(priceString, out price))
         {
@@ -24,7 +24,7 @@ public static class OrderValidator
         return true;
     }
 
-    public static bool IsValidDate(string dateString, out DateTime date)
+    public static bool IsValidDate(string? dateString, out DateTime date)
     {
         if (!DateTime.TryParse(dateString, out date))
         {
@@ -34,16 +34,14 @@ public static class OrderValidator
         return true;
     }
 
-    public static bool IsValidDeliverType(string deliverTypeString, out short deliverTypeNumber)
+    public static bool IsValidDeliverType(string? deliverTypeString, out short deliverTypeNumber)
     {
-        deliverTypeNumber = 0;
-
-        if (!deliverTypeString.Equals("1") & !deliverTypeString.Equals("2") & !deliverTypeString.Equals("3"))
+        if (!short.TryParse(deliverTypeString, out deliverTypeNumber))
         {
             return false;
         }
 
-        if (!short.TryParse(deliverTypeString, out deliverTypeNumber))
+        if (!deliverTypeString.Equals("1") & !deliverTypeString.Equals("2") & !deliverTypeString.Equals("3"))
         {
             return false;
         }

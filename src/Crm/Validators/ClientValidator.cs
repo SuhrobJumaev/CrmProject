@@ -1,10 +1,9 @@
-﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the MIT license.  See License.txt in the project root for license information.
-
+﻿
 namespace Crm.Validators;
 
 public static class ClientValidator
 {
-    public static bool IsValidFirstName(string firstName)
+    public static bool IsValidFirstName(string? firstName)
     {
         if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(firstName))
         {
@@ -14,7 +13,7 @@ public static class ClientValidator
         return true;
     }
 
-    public static bool IsValidLastName(string lastName)
+    public static bool IsValidLastName(string? lastName)
     {
         if (string.IsNullOrEmpty(lastName) || string.IsNullOrWhiteSpace(lastName))
         {
@@ -23,7 +22,7 @@ public static class ClientValidator
 
         return true;
     }
-    public static bool IsValidAge(string ageString, out short age)
+    public static bool IsValidAge(string? ageString, out short age)
     {
         if (!short.TryParse(ageString, out age))
         {
@@ -33,7 +32,7 @@ public static class ClientValidator
         return true;
     }
 
-    public static bool IsValidPassportId(string passportId)
+    public static bool IsValidPassportId(string? passportId)
     {
         if (string.IsNullOrEmpty(passportId) || string.IsNullOrWhiteSpace(passportId))
         {
@@ -43,16 +42,14 @@ public static class ClientValidator
         return true;
     }
 
-    public static bool IsValidGender(string genderString, out short genderNumber)
+    public static bool IsValidGender(string? genderString, out short genderNumber)
     {
-        genderNumber = 0;
-        _ = !genderString.Equals("1");
-        if (!genderString.Equals("1") & !genderString.Equals("2"))
+        if (!short.TryParse(genderString, out genderNumber))
         {
             return false;
         }
 
-        if (!short.TryParse(genderString, out genderNumber))
+        if (!genderString.Equals("1") & !genderString.Equals("2"))
         {
             return false;
         }

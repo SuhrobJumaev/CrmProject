@@ -62,7 +62,7 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Описания заказа: " + order.Description);
             Console.WriteLine("Цена: " + order.Price);
             Console.WriteLine("Тип доставки: " + order.DeliveryType);
-            Console.WriteLine("Дата заказа: " + order.OrderDate.ToString("yyyy-MM-dd"));
+            Console.WriteLine("Дата заказа: " + order.OrderDate?.ToString("yyyy-MM-dd"));
             Console.WriteLine("Адрес доставки: " + order.DeliveryAddress);
 
             break;
@@ -111,7 +111,6 @@ Client CreateClient()
 
     while (!ClientValidator.IsValidAge(ageString, out age))
     {
-        Console.WriteLine("Укажите возраст клиента: ");
         ageString = Console.ReadLine();
     }
 
