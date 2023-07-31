@@ -8,6 +8,9 @@ public class Client
     private short _age;
     private readonly string? _passportNumber;
     private readonly Gender? _gender;
+    private string? _phone;
+    private string? _email;
+    private string? _password;
 
     public required string FirstName
     {
@@ -43,5 +46,23 @@ public class Client
     {
         get => _gender ?? null;
         init => _gender = value is not null ? value : throw new ArgumentOutOfRangeException(nameof(value));
+    }
+
+    public required string Phone
+    {
+        get => _phone ?? string.Empty;
+        init => _phone = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
+    }
+
+    public required string Email
+    {
+        get => _email ?? string.Empty;
+        init => _email = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
+    }
+
+    public required string Password
+    {
+        get => _password ?? string.Empty;
+        init => _password = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 }
