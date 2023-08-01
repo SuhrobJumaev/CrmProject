@@ -6,7 +6,7 @@ using Crm.Entities.Dtos;
 
 public sealed class ClientService
 {
-    private readonly List<Client> createdClientsList = new List<Client>();
+    private readonly List<Client> _createdClientsList = new();
     public Client CreateClient(ClientDto clientDto)
     {
 
@@ -22,7 +22,7 @@ public sealed class ClientService
             Email = clientDto.Email,
             Password = clientDto.Password
         };
-        createdClientsList.Add(client);
+        _createdClientsList.Add(client);
         return client;
     }
 
@@ -31,15 +31,15 @@ public sealed class ClientService
         var strBuilder = new StringBuilder().Append('-', 100);
 
         Console.WriteLine("");
-        System.Console.WriteLine("Count created clients is " + createdClientsList.Count());
+        System.Console.WriteLine("Count created clients is " + _createdClientsList.Count());
         Console.WriteLine("");
 
-        if (createdClientsList.Count == 0)
+        if (_createdClientsList.Count == 0)
         {
             return;
         }
 
-        foreach (var client in createdClientsList)
+        foreach (var client in _createdClientsList)
         {
             Console.WriteLine("");
             System.Console.WriteLine(strBuilder);

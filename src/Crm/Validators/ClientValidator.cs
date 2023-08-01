@@ -8,6 +8,9 @@ public static class ClientValidator
     private const string emailPattern = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
     private const string phonePattern = "^(992[0-9]{9})$";
 
+    private static readonly Regex _allowedEmailRegex = new Regex(emailPattern, RegexOptions.Compiled);
+    private static readonly Regex _allowedPhoneRegex = new Regex(phonePattern, RegexOptions.Compiled);
+
     public static bool IsValidFirstName(string? firstName)
     {
         if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(firstName))
@@ -69,7 +72,9 @@ public static class ClientValidator
             return false;
         }
 
-        if (!Regex.IsMatch(phone, phonePattern))
+        Match match = _allowedPhoneRegex.Match(phone);
+
+        if (!match.Success)
         {
             return false;
         }
@@ -83,7 +88,9 @@ public static class ClientValidator
             return false;
         }
 
-        if (!Regex.IsMatch(email, emailPattern, RegexOptions.IgnoreCase))
+        Match match = _allowedEmailRegex.Match(email);
+
+        if (!match.Success)
         {
             return false;
         }
