@@ -10,13 +10,13 @@ var orderService = new OrderService();
 
 Console.WriteLine("Добро пожаловать в наш маленький CRM!");
 Console.WriteLine("Выберите команду, которую вы хотите выполнить!");
-Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ}, {3 - завершения программы}");
+Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ}, {3 - завершения программы}, {4 - список ранее созданных клиентов}");
 
 int commandNumber;
 
 while (!int.TryParse(Console.ReadLine(), out commandNumber))
 {
-    Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}");
+    Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}, {4 - список ранее созданных клиентов}");
 }
 
 var command = (CommandsType)commandNumber;
@@ -44,6 +44,8 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Возраст клиента: " + client.Age);
             Console.WriteLine("Серия и номер паспорта клиента: " + client.PassportNumber);
             Console.WriteLine("Пол: " + client.Gender);
+            Console.WriteLine("Номер телефона: " + client.Phone);
+            Console.WriteLine("Почта: " + client.Email);
 
             break;
 
@@ -64,19 +66,24 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Тип доставки: " + order.DeliveryType);
             Console.WriteLine("Дата заказа: " + order.OrderDate?.ToString("yyyy-MM-dd"));
             Console.WriteLine("Адрес доставки: " + order.DeliveryAddress);
-
             break;
+
+        case CommandsType.ListCreatedClients:
+
+            clientService.GetListAllCreatedClients();
+            break;
+
         default:
             Console.WriteLine("Неизвестная команда!");
             break;
     }
 
     Console.WriteLine(new StringBuilder().Append('-', 100));
-    Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}");
+    Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}, {4 - список ранее созданных клиентов}");
 
     while (!int.TryParse(Console.ReadLine(), out commandNumber))
     {
-        Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}");
+        Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}, {4 - список ранее созданных клиентов}");
     }
 
     command = (CommandsType)commandNumber;
@@ -111,6 +118,7 @@ Client CreateClient()
 
     while (!ClientValidator.IsValidAge(ageString, out age))
     {
+        Console.WriteLine("Укажите возраст клиента: ");
         ageString = Console.ReadLine();
     }
 
@@ -133,6 +141,36 @@ Client CreateClient()
         genderString = Console.ReadLine();
     }
 
+    Console.WriteLine("Введите номер телефона: {992900000000} ");
+
+    var phone = Console.ReadLine();
+
+    while (!ClientValidator.IsValidPhone(phone))
+    {
+        Console.WriteLine("Введите номер телефона: {992900000000} ");
+        phone = Console.ReadLine();
+    }
+
+    Console.WriteLine("Введите email клиента: {name@mail.ru or name@gamil.com} ");
+
+    var email = Console.ReadLine();
+
+    while (!ClientValidator.IsValidEmail(email))
+    {
+        Console.WriteLine("Введите email клиента: {name@mail.ru or name@gamil.com} ");
+        email = Console.ReadLine();
+    }
+
+    Console.WriteLine("Введите пароль клиента: ");
+
+    var password = Console.ReadLine();
+
+    while (!ClientValidator.IsValidPassword(password))
+    {
+        Console.WriteLine("Введите пароль клиента: ");
+        password = Console.ReadLine();
+    }
+
     var gender = (Gender)genderNumber;
 
     var clientDto = new ClientDto()
@@ -142,7 +180,11 @@ Client CreateClient()
         MiddleName = middleName,
         Age = age,
         PassportNumber = passportNumber,
-        Gender = gender
+        Gender = gender,
+        Phone = phone,
+        Email = email,
+        Password = password
+
     };
 
     var newClient = clientService.CreateClient(clientDto);
