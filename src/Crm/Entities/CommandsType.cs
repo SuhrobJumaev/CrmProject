@@ -6,4 +6,8 @@ public enum CommandsType : short
     CreateOrder = 2,
     Exit = 3,
     ListCreatedClients = 4,
+    ListCreatedOrders = 5,
+    GetClientByNameAndLastName = 6,
+    GetOrderByDescription = 7,
+    GetOrderById = 8
 }

@@ -24,6 +24,16 @@ public static class OrderValidator
         return true;
     }
 
+    public static bool IsValidId(string? idString, out int id)
+    {
+        if (!int.TryParse(idString, out id))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public static bool IsValidDate(string? dateString, out DateTime date)
     {
         if (!DateTime.TryParse(dateString, out date))
