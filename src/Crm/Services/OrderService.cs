@@ -39,6 +39,34 @@ public class OrderService : IOrderService
         return _createdOrdersList;
     }
 
+    public Order UpdateOrderById(int id, string description)
+    {
+        Order order = _createdOrdersList.Find(c => c.Id == id);
+
+        if(order == null)
+        {
+            return null;
+        }
+
+        order.Description = description;
+
+        return order;
+    }
+
+    public bool DeleteOrder(int id)
+    {
+        Order order = _createdOrdersList.Find(c => c.Id == id);
+
+        if(order == null)
+        {
+            return false;
+        }
+
+        var result = _createdOrdersList.Remove(order);
+
+        return result;
+    }
+
     private int NextId()
     {
         return ++_id;
