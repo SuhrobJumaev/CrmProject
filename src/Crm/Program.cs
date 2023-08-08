@@ -2,11 +2,12 @@
 using System.Text;
 using Crm.Entities;
 using Crm.Entities.Dtos;
+using Crm.interfaces;
 using Crm.Serices;
 using Crm.Validators;
 
-var clientService = new ClientService();
-var orderService = new OrderService();
+IClientService clientService = new ClientService();
+IOrderService orderService = new OrderService();
 
 var strBuilder = new StringBuilder().Append('-', 100);
 
