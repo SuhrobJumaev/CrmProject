@@ -2,8 +2,9 @@
 
 using Crm.Entities;
 using Crm.Entities.Dtos;
+using Crm.interfaces;
 
-public sealed class ClientService
+public sealed class ClientService : IClientService
 {
     private readonly List<Client> _createdClientsList = new();
     public Client CreateClient(ClientDto clientDto)

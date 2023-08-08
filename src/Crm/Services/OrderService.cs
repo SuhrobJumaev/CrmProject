@@ -2,8 +2,9 @@
 
 using Crm.Entities;
 using Crm.Entities.Dtos;
+using Crm.interfaces;
 
-public class OrderService
+public class OrderService : IOrderService
 {
     private readonly List<Order> _createdOrdersList = new();
     private int _id = 0;
