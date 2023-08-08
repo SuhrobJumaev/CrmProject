@@ -502,5 +502,5 @@ static string GetAvailableCommands()
 
 static void AddNewEmptyLine()
 {
-    Console.WriteLine("");
+    Console.WriteLine();
 }
