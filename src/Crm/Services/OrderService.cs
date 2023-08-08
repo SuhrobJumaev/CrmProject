@@ -1,7 +1,6 @@
 ﻿namespace Crm.Serices;
 
-using Crm.Entities;
-using Crm.Entities.Dtos;
+using Crm.DataAccess;
 using Crm.interfaces;
 
 public class OrderService : IOrderService

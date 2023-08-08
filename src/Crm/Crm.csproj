@@ -15,4 +15,8 @@
     <None Include="D:\AlifAcademyC#\Crm-Practice\src\Crm\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Crm.DataAccess\Crm.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

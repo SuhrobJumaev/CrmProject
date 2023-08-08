@@ -1,7 +1,6 @@
 ﻿
 using System.Text;
-using Crm.Entities;
-using Crm.Entities.Dtos;
+using Crm.DataAccess;
 using Crm.interfaces;
 using Crm.Serices;
 using Crm.Validators;

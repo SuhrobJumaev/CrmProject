@@ -1,7 +1,7 @@
 ﻿namespace Crm.interfaces;
 
-using Crm.Entities;
-using Crm.Entities.Dtos;
+
+using Crm.DataAccess;
 
 public interface IClientService
 {

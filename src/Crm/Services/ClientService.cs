@@ -1,9 +1,9 @@
 ﻿namespace Crm.Serices;
 
-using Crm.Entities;
-using Crm.Entities.Dtos;
-using Crm.interfaces;
+
 using Crm.DataAccess;
+using Crm.interfaces;
+
 
 public sealed class ClientService : IClientService
 {
