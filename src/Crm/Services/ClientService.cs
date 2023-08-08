@@ -3,6 +3,7 @@
 using Crm.Entities;
 using Crm.Entities.Dtos;
 using Crm.interfaces;
+using Crm.DataAccess;
 
 public sealed class ClientService : IClientService
 {
