@@ -8,15 +8,17 @@ using Crm.Validators;
 var clientService = new ClientService();
 var orderService = new OrderService();
 
+var strBuilder = new StringBuilder().Append('-', 100);
+
 Console.WriteLine("Добро пожаловать в наш маленький CRM!");
 Console.WriteLine("Выберите команду, которую вы хотите выполнить!");
-Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ}, {3 - завершения программы}, {4 - список ранее созданных клиентов}");
+Console.WriteLine(GetAvailableCommands());
 
 int commandNumber;
 
 while (!int.TryParse(Console.ReadLine(), out commandNumber))
 {
-    Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}, {4 - список ранее созданных клиентов}");
+    Console.WriteLine(GetAvailableCommands());
 }
 
 var command = (CommandsType)commandNumber;
@@ -32,12 +34,15 @@ while (command != CommandsType.Exit)
 
             if (client == null)
             {
+                AddNewEmptyLine();
                 Console.WriteLine("Клиент не был создан. Неизвестная ошибка, попробуйте снова!");
                 break;
             }
 
-            Console.WriteLine(new StringBuilder().Append('-', 100));
+            Console.WriteLine(strBuilder);
             Console.WriteLine("Клиент успешно создан");
+
+            AddNewEmptyLine();
             Console.WriteLine("Имя клиента: " + client.FirstName);
             Console.WriteLine("Фамилия клиента: " + client.LastName);
             Console.WriteLine("Отчество клиента: " + client.MiddleName);
@@ -55,12 +60,16 @@ while (command != CommandsType.Exit)
 
             if (order == null)
             {
+                AddNewEmptyLine();
                 Console.WriteLine("Заказ не был создан. Неизвестная ошибка, попробуйте снова!");
                 break;
             }
 
             Console.WriteLine(new StringBuilder().Append('-', 100));
             Console.WriteLine("Заказ успешно создан");
+            AddNewEmptyLine();
+
+            Console.WriteLine("ID заказа: " + order.Id);
             Console.WriteLine("Описания заказа: " + order.Description);
             Console.WriteLine("Цена: " + order.Price);
             Console.WriteLine("Тип доставки: " + order.DeliveryType);
@@ -70,7 +79,226 @@ while (command != CommandsType.Exit)
 
         case CommandsType.ListCreatedClients:
 
-            clientService.GetListAllCreatedClients();
+            var clients = clientService.GetListAllCreatedClients();
+
+            if (clients == null)
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Список клиентов не найден! Обратитесь за помощью к администратору!");
+                break;
+            }
+
+            AddNewEmptyLine();
+            Console.WriteLine("Count created clients is " + clients.Count());
+            AddNewEmptyLine();
+
+            if (clients.Count == 0)
+            {
+                break;
+            }
+
+            foreach (var item in clients)
+            {
+                AddNewEmptyLine();
+                System.Console.WriteLine(strBuilder);
+
+                Console.WriteLine("Имя клиента: " + item.FirstName);
+                Console.WriteLine("Фамилия клиента: " + item.LastName);
+                Console.WriteLine("Отчество клиента: " + item.MiddleName);
+                Console.WriteLine("Возраст клиента: " + item.Age);
+                Console.WriteLine("Серия и номер паспорта клиента: " + item.PassportNumber);
+                Console.WriteLine("Пол: " + item.Gender);
+                Console.WriteLine("Номер телефона: " + item.Phone);
+                Console.WriteLine("Почта: " + item.Email);
+
+                AddNewEmptyLine();
+            }
+
+            break;
+
+        case CommandsType.ListCreatedOrders:
+            var orders = orderService.GetListCreatedOrders();
+
+            if (orders == null)
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Список закзов не найден! Обратитесь за помощью к администратору!");
+                break;
+            }
+
+            AddNewEmptyLine();
+            System.Console.WriteLine("Count orders is " + orders.Count);
+            AddNewEmptyLine();
+
+            if (orders.Count == 0)
+            {
+                break;
+            }
+
+            foreach (var item in orders)
+            {
+                AddNewEmptyLine();
+                System.Console.WriteLine(strBuilder);
+
+                Console.WriteLine("ID заказа: " + item.Id);
+                Console.WriteLine("Описания заказа: " + item.Description);
+                Console.WriteLine("Цена: " + item.Price);
+                Console.WriteLine("Тип доставки: " + item.DeliveryType);
+                Console.WriteLine("Дата заказа: " + item.OrderDate?.ToString("yyyy-MM-dd"));
+                Console.WriteLine("Адрес доставки: " + item.DeliveryAddress);
+                AddNewEmptyLine();
+            }
+
+            break;
+
+        case CommandsType.GetClientByNameAndLastName:
+            Console.WriteLine("Поиск пользователя по имени и фамилии: ");
+            AddNewEmptyLine();
+
+            Console.WriteLine("Введите имя клиента: ");
+            var firstName = Console.ReadLine();
+
+            while (!ClientValidator.IsValidFirstName(firstName))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Введите имя клиента: ");
+                firstName = Console.ReadLine();
+            }
+
+            AddNewEmptyLine();
+            Console.WriteLine("Введите фамилию клиента: ");
+            var lastName = Console.ReadLine();
+
+            while (!ClientValidator.IsValidLastName(lastName))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Введите фамилию клиента: ");
+                lastName = Console.ReadLine();
+            }
+
+            var foundClients = clientService.GetClientByNameAndSurname(firstName, lastName);
+
+            if (foundClients == null)
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Вернулся пустой список! Обратитесь к адимистратору!");
+                break;
+            }
+
+            AddNewEmptyLine();
+            System.Console.WriteLine("Count found clients is " + foundClients.Count);
+            AddNewEmptyLine();
+
+            if (foundClients.Count == 0)
+            {
+                break;
+            }
+
+            foreach (var item in foundClients)
+            {
+                AddNewEmptyLine();
+                System.Console.WriteLine(strBuilder);
+
+                Console.WriteLine("Имя клиента: " + item.FirstName);
+                Console.WriteLine("Фамилия клиента: " + item.LastName);
+                Console.WriteLine("Отчество клиента: " + item.MiddleName);
+                Console.WriteLine("Возраст клиента: " + item.Age);
+                Console.WriteLine("Серия и номер паспорта клиента: " + item.PassportNumber);
+                Console.WriteLine("Пол: " + item.Gender);
+                Console.WriteLine("Номер телефона: " + item.Phone);
+                Console.WriteLine("Почта: " + item.Email);
+
+                AddNewEmptyLine();
+            }
+
+            break;
+
+        case CommandsType.GetOrderByDescription:
+            Console.WriteLine("Поиск заказа по описанию");
+            AddNewEmptyLine();
+
+            Console.WriteLine("Описания заказа: ");
+            var description = Console.ReadLine();
+
+            while (!OrderValidator.IsValidDescription(description))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Описания заказа: ");
+                description = Console.ReadLine();
+            }
+
+            var foundOrders = orderService.GetOrderByDescription(description);
+
+            if (foundOrders == null)
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Вернулся пустой список! Обратитесь к адимистратору!");
+                break;
+            }
+
+            AddNewEmptyLine();
+            System.Console.WriteLine("Count found orders is " + foundOrders.Count);
+            AddNewEmptyLine();
+
+            if (foundOrders.Count == 0)
+            {
+                break;
+            }
+
+            foreach (var item in foundOrders)
+            {
+                AddNewEmptyLine();
+                System.Console.WriteLine(strBuilder);
+
+                Console.WriteLine("ID заказа: " + item.Id);
+                Console.WriteLine("Описания заказа: " + item.Description);
+                Console.WriteLine("Цена: " + item.Price);
+                Console.WriteLine("Тип доставки: " + item.DeliveryType);
+                Console.WriteLine("Дата заказа: " + item.OrderDate?.ToString("yyyy-MM-dd"));
+                Console.WriteLine("Адрес доставки: " + item.DeliveryAddress);
+                AddNewEmptyLine();
+
+            }
+
+            break;
+
+        case CommandsType.GetOrderById:
+
+            Console.WriteLine("Поиск клиента по ID");
+
+            int id;
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID заказа: ");
+            var idString = Console.ReadLine();
+
+            while (!OrderValidator.IsValidId(idString, out id))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Id заказа: ");
+                idString = Console.ReadLine();
+            }
+
+            var foundOrder = orderService.GetOrderById(id);
+
+            if (foundOrder == null)
+            {
+                AddNewEmptyLine();
+                Console.WriteLine($"Заказ по данному ID - {id} не найден!");
+                break;
+            }
+
+            Console.WriteLine(new StringBuilder().Append('-', 100));
+            Console.WriteLine($"Заказ по ID - {id} найден!");
+            AddNewEmptyLine();
+
+            Console.WriteLine("ID заказа: " + foundOrder.Id);
+            Console.WriteLine("Описания заказа: " + foundOrder.Description);
+            Console.WriteLine("Цена: " + foundOrder.Price);
+            Console.WriteLine("Тип доставки: " + foundOrder.DeliveryType);
+            Console.WriteLine("Дата заказа: " + foundOrder.OrderDate?.ToString("yyyy-MM-dd"));
+            Console.WriteLine("Адрес доставки: " + foundOrder.DeliveryAddress);
+
             break;
 
         default:
@@ -78,12 +306,13 @@ while (command != CommandsType.Exit)
             break;
     }
 
+    AddNewEmptyLine();
     Console.WriteLine(new StringBuilder().Append('-', 100));
-    Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}, {4 - список ранее созданных клиентов}");
+    Console.WriteLine(GetAvailableCommands());
 
     while (!int.TryParse(Console.ReadLine(), out commandNumber))
     {
-        Console.WriteLine("Доступные команды: {1 - создать клинта}, {2 - создать заказ},{3 - завершения программы}, {4 - список ранее созданных клиентов}");
+        Console.WriteLine(GetAvailableCommands());
     }
 
     command = (CommandsType)commandNumber;
@@ -246,7 +475,6 @@ Order CreateOrder()
 
     var orderDto = new OrderDto()
     {
-        Id = 1,
         Description = description,
         Price = price,
         OrderDate = orderDate,
@@ -257,4 +485,22 @@ Order CreateOrder()
     var newOrder = orderService.CreateOrder(orderDto);
 
     return newOrder;
+}
+
+static string GetAvailableCommands()
+{
+    return @"Доступные команды:
+    {1 - создать клинта}, 
+    {2 - создать заказ},
+    {3 - завершения программы}, 
+    {4 - список ранее созданных клиентов}, 
+    {5 - список ранее созданных заказов},
+    {6 - поиск клиента по имени и фамилии},
+    {7 - поиск заказа по описанию},
+    {8 - поиск заказа по ID}'";
+}
+
+static void AddNewEmptyLine()
+{
+    Console.WriteLine();
 }

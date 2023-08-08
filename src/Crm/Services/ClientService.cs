@@ -1,6 +1,5 @@
 ﻿namespace Crm.Serices;
 
-using System.Text;
 using Crm.Entities;
 using Crm.Entities.Dtos;
 
@@ -26,34 +25,13 @@ public sealed class ClientService
         return client;
     }
 
-    public void GetListAllCreatedClients()
+    public List<Client> GetListAllCreatedClients()
     {
-        var strBuilder = new StringBuilder().Append('-', 100);
+        return _createdClientsList;
+    }
 
-        Console.WriteLine("");
-        System.Console.WriteLine("Count created clients is " + _createdClientsList.Count());
-        Console.WriteLine("");
-
-        if (_createdClientsList.Count == 0)
-        {
-            return;
-        }
-
-        foreach (var client in _createdClientsList)
-        {
-            Console.WriteLine("");
-            System.Console.WriteLine(strBuilder);
-
-            Console.WriteLine("Имя клиента: " + client.FirstName);
-            Console.WriteLine("Фамилия клиента: " + client.LastName);
-            Console.WriteLine("Отчество клиента: " + client.MiddleName);
-            Console.WriteLine("Возраст клиента: " + client.Age);
-            Console.WriteLine("Серия и номер паспорта клиента: " + client.PassportNumber);
-            Console.WriteLine("Пол: " + client.Gender);
-            Console.WriteLine("Номер телефона: " + client.Phone);
-            Console.WriteLine("Почта: " + client.Email);
-
-            Console.WriteLine("");
-        }
+    public List<Client> GetClientByNameAndSurname(string firstName, string lastName)
+    {
+        return _createdClientsList.FindAll(c => c.FirstName == firstName && c.LastName == lastName).ToList();
     }
 }
