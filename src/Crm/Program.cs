@@ -43,6 +43,7 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Клиент успешно создан");
 
             AddNewEmptyLine();
+            Console.WriteLine("ID клиента: " + client.Id);
             Console.WriteLine("Имя клиента: " + client.FirstName);
             Console.WriteLine("Фамилия клиента: " + client.LastName);
             Console.WriteLine("Отчество клиента: " + client.MiddleName);
@@ -102,6 +103,7 @@ while (command != CommandsType.Exit)
                 AddNewEmptyLine();
                 System.Console.WriteLine(strBuilder);
 
+                Console.WriteLine("ID клиента: " + item.Id);
                 Console.WriteLine("Имя клиента: " + item.FirstName);
                 Console.WriteLine("Фамилия клиента: " + item.LastName);
                 Console.WriteLine("Отчество клиента: " + item.MiddleName);
@@ -199,6 +201,7 @@ while (command != CommandsType.Exit)
                 AddNewEmptyLine();
                 System.Console.WriteLine(strBuilder);
 
+                Console.WriteLine("ID клиента: " + item.Id);
                 Console.WriteLine("Имя клиента: " + item.FirstName);
                 Console.WriteLine("Фамилия клиента: " + item.LastName);
                 Console.WriteLine("Отчество клиента: " + item.MiddleName);
@@ -301,13 +304,175 @@ while (command != CommandsType.Exit)
 
             break;
 
+        case CommandsType.UpdateClientById:
+            Console.WriteLine("Обновления пользователя по ID");
+
+            int clientId = 0;
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID клиента: ");
+            var clientIdString = Console.ReadLine();
+
+            while (!ClientValidator.IsValidId(clientIdString, out id))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Id клиента: ");
+                clientIdString = Console.ReadLine();
+            }
+
+            Console.WriteLine("Введите имя клиента: ");
+            var clientFirstName = Console.ReadLine();
+
+            while (!ClientValidator.IsValidFirstName(clientFirstName))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Введите имя клиента: ");
+                clientFirstName = Console.ReadLine();
+            }
+
+            AddNewEmptyLine();
+            Console.WriteLine("Введите фамилию клиента: ");
+            var clientLastName = Console.ReadLine();
+
+            while (!ClientValidator.IsValidLastName(clientLastName))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Введите фамилию клиента: ");
+                clientLastName = Console.ReadLine();
+            }
+
+            Client updatedClient = clientService.UpdateClientById(clientId,clientFirstName,clientLastName);
+            
+            if(updatedClient == null)
+            {
+                Console.WriteLine($"Клиент по ID {clientId} не был обновлен!");
+                break;
+            }
+            
+            Console.WriteLine(strBuilder);
+            Console.WriteLine("Клиент успешно создан");
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID клиента: " + updatedClient.Id);
+            Console.WriteLine("Имя клиента: " + updatedClient.FirstName);
+            Console.WriteLine("Фамилия клиента: " + updatedClient.LastName);
+            Console.WriteLine("Отчество клиента: " + updatedClient.MiddleName);
+            Console.WriteLine("Возраст клиента: " + updatedClient.Age);
+            Console.WriteLine("Серия и номер паспорта клиента: " + updatedClient.PassportNumber);
+            Console.WriteLine("Пол: " + updatedClient.Gender);
+            Console.WriteLine("Номер телефона: " + updatedClient.Phone);
+            Console.WriteLine("Почта: " + updatedClient.Email);
+
+            break;
+
+        case CommandsType.DeleteClient:
+            Console.WriteLine("Удаления пользователя по ID");
+
+            int clientIdForRemove = 0;
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID клиента: ");
+            var clientIdForRemoveString = Console.ReadLine();
+
+            while (!ClientValidator.IsValidId(clientIdForRemoveString, out id))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Id клиента: ");
+                clientIdForRemoveString = Console.ReadLine();
+            }
+            bool result = clientService.DeleteClient(clientIdForRemove);
+
+            if (result == false)
+            {
+                Console.WriteLine($"Не получилось удалить клиента по ID {clientIdForRemove}!");
+                break;
+            }
+
+            Console.WriteLine($"Клиент по ID {clientIdForRemove} успешно удален!");
+            break;
+
+        case CommandsType.UpdateOrderById: 
+            
+            Console.WriteLine("Обновления клиента по ID");
+
+            int orderId;
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID заказа: ");
+            var idOrderString = Console.ReadLine();
+
+            while (!OrderValidator.IsValidId(idOrderString, out orderId))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Id заказа: ");
+                idOrderString = Console.ReadLine();
+            }
+
+            Console.WriteLine("Описания заказа: ");
+            var orderDescription = Console.ReadLine();
+
+            while (!OrderValidator.IsValidDescription(orderDescription))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Описания заказа: ");
+                orderDescription = Console.ReadLine();
+            }
+
+            Order updatedOrder = orderService.UpdateOrderById(orderId, orderDescription);
+
+            if(updatedOrder == null)
+            {
+                Console.WriteLine($"Не удалось обновить заказ по ID {orderId}");
+                break;
+            }
+
+            Console.WriteLine(strBuilder);
+            Console.WriteLine($"Обновленный заказ по ID {orderId}");
+            AddNewEmptyLine();
+
+            Console.WriteLine("ID заказа: " + updatedOrder.Id);
+            Console.WriteLine("Описания заказа: " + updatedOrder.Description);
+            Console.WriteLine("Цена: " + updatedOrder.Price);
+            Console.WriteLine("Тип доставки: " + updatedOrder.DeliveryType);
+            Console.WriteLine("Дата заказа: " + updatedOrder.OrderDate?.ToString("yyyy-MM-dd"));
+            Console.WriteLine("Адрес доставки: " + updatedOrder.DeliveryAddress);
+            
+            break;
+
+        case CommandsType.DeleteOrder:
+            Console.WriteLine("Удаления заказа по ID");
+
+            int orderIdForRemove = 0;
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID заказа: ");
+            var orderIdForRemoveString = Console.ReadLine();
+
+            while (!OrderValidator.IsValidId(orderIdForRemoveString, out orderIdForRemove))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Id заказа: ");
+                orderIdForRemoveString = Console.ReadLine();
+            }
+
+            var resultRemove = orderService.DeleteOrder(orderIdForRemove);
+            
+            if (resultRemove == false)
+            {
+                Console.WriteLine($"Не получилось удалить заказ по ID {orderIdForRemove}!");
+                break;
+            }
+
+            Console.WriteLine($"Заказ по ID {orderIdForRemove} успешно удален!");
+            break;
+
         default:
             Console.WriteLine("Неизвестная команда!");
             break;
     }
 
     AddNewEmptyLine();
-    Console.WriteLine(new StringBuilder().Append('-', 100));
+    Console.WriteLine(strBuilder);
     Console.WriteLine(GetAvailableCommands());
 
     while (!int.TryParse(Console.ReadLine(), out commandNumber))
@@ -497,7 +662,11 @@ static string GetAvailableCommands()
     {5 - список ранее созданных заказов},
     {6 - поиск клиента по имени и фамилии},
     {7 - поиск заказа по описанию},
-    {8 - поиск заказа по ID}'";
+    {8 - поиск заказа по ID},
+    {9 - обновить клиента по ID},
+    {10 - удалить клиента},
+    {11 - обновить заказ по ID},
+    {12 - удалить заказ }'";
 }
 
 static void AddNewEmptyLine()

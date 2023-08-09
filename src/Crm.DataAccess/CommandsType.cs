@@ -9,5 +9,10 @@ public enum CommandsType : short
     ListCreatedOrders = 5,
     GetClientByNameAndLastName = 6,
     GetOrderByDescription = 7,
-    GetOrderById = 8
+    GetOrderById = 8,
+    UpdateClientById = 9,
+    DeleteClient = 10,
+    UpdateOrderById = 11,
+    DeleteOrder = 12
+
 }
