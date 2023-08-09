@@ -307,13 +307,13 @@ while (command != CommandsType.Exit)
         case CommandsType.UpdateClientById:
             Console.WriteLine("Обновления пользователя по ID");
 
-            int clientId = 0;
+            int clientId;
 
             AddNewEmptyLine();
             Console.WriteLine("ID клиента: ");
             var clientIdString = Console.ReadLine();
 
-            while (!ClientValidator.IsValidId(clientIdString, out id))
+            while (!ClientValidator.IsValidId(clientIdString, out clientId))
             {
                 AddNewEmptyLine();
                 Console.WriteLine("Id клиента: ");
@@ -368,13 +368,13 @@ while (command != CommandsType.Exit)
         case CommandsType.DeleteClient:
             Console.WriteLine("Удаления пользователя по ID");
 
-            int clientIdForRemove = 0;
+            int clientIdForRemove;
 
             AddNewEmptyLine();
             Console.WriteLine("ID клиента: ");
             var clientIdForRemoveString = Console.ReadLine();
 
-            while (!ClientValidator.IsValidId(clientIdForRemoveString, out id))
+            while (!ClientValidator.IsValidId(clientIdForRemoveString, out clientIdForRemove))
             {
                 AddNewEmptyLine();
                 Console.WriteLine("Id клиента: ");
@@ -442,7 +442,7 @@ while (command != CommandsType.Exit)
         case CommandsType.DeleteOrder:
             Console.WriteLine("Удаления заказа по ID");
 
-            int orderIdForRemove = 0;
+            int orderIdForRemove;
 
             AddNewEmptyLine();
             Console.WriteLine("ID заказа: ");
