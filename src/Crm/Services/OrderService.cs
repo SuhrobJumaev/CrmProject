@@ -1,7 +1,6 @@
 ﻿namespace Crm.Serices;
 
-using Crm.Entities;
-using Crm.Entities.Dtos;
+using Crm.DataAccess;
 using Crm.interfaces;
 
 public class OrderService : IOrderService
@@ -38,6 +37,34 @@ public class OrderService : IOrderService
     public List<Order> GetListCreatedOrders()
     {
         return _createdOrdersList;
+    }
+
+    public Order UpdateOrderById(int id, string description)
+    {
+        Order order = _createdOrdersList.Find(c => c.Id == id);
+
+        if(order == null)
+        {
+            return null;
+        }
+
+        order.Description = description;
+
+        return order;
+    }
+
+    public bool DeleteOrder(int id)
+    {
+        Order order = _createdOrdersList.Find(c => c.Id == id);
+
+        if(order == null)
+        {
+            return false;
+        }
+
+        var result = _createdOrdersList.Remove(order);
+
+        return result;
     }
 
     private int NextId()

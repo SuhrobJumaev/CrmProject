@@ -1,7 +1,6 @@
 ﻿namespace Crm.interfaces;
 
-using Crm.Entities;
-using Crm.Entities.Dtos;
+using Crm.DataAccess;
 
 public interface IOrderService
 {
@@ -9,4 +8,6 @@ public interface IOrderService
     List<Order> GetOrderByDescription(string description);
     Order GetOrderById(int id);
     List<Order> GetListCreatedOrders();
+    Order UpdateOrderById(int id, string description);
+    bool DeleteOrder(int id);
 }

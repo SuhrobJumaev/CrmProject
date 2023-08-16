@@ -11,6 +11,17 @@ public static class ClientValidator
     private static readonly Regex _allowedEmailRegex = new Regex(emailPattern, RegexOptions.Compiled);
     private static readonly Regex _allowedPhoneRegex = new Regex(phonePattern, RegexOptions.Compiled);
 
+    public static bool IsValidId(string? idString, out int id)
+    {
+        if (!int.TryParse(idString, out id))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    
     public static bool IsValidFirstName(string? firstName)
     {
         if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(firstName))

@@ -1,7 +1,8 @@
-﻿namespace Crm.Entities.Dtos;
+﻿namespace Crm.DataAccess;
 
 public readonly struct ClientDto
 {
+    public int Id {get;init;}
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public string? MiddleName { get; init; }

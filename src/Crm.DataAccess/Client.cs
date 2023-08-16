@@ -1,9 +1,10 @@
-﻿namespace Crm.Entities;
+﻿namespace Crm.DataAccess;
 
 public class Client
 {
-    private readonly string? _firstName;
-    private readonly string? _lastName;
+    private readonly int _id;
+    private  string? _firstName;
+    private  string? _lastName;
     private string? _middleName;
     private short _age;
     private readonly string? _passportNumber;
@@ -12,16 +13,21 @@ public class Client
     private string? _email;
     private string? _password;
 
+    public int Id
+    {
+        get => _id;
+        init => _id = value;
+    }
     public required string FirstName
     {
         get => _firstName ?? string.Empty;
-        init => _firstName = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
+        set => _firstName = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 
     public required string LastName
     {
         get => _lastName ?? string.Empty;
-        init => _lastName = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
+        set => _lastName = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 
     public string? MiddleName

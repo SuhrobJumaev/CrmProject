@@ -1,4 +1,4 @@
-﻿namespace Crm.Entities.Dtos;
+﻿namespace Crm.DataAccess;
 
 public readonly struct OrderDto
 {

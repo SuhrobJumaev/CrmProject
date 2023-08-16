@@ -1,4 +1,4 @@
-﻿namespace Crm.Entities;
+﻿namespace Crm.DataAccess;
 
 public class Order
 {
@@ -13,7 +13,7 @@ public class Order
     public required string Description
     {
         get => _description ?? string.Empty;
-        init => _description = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
+        set => _description = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 
     public required decimal Price
