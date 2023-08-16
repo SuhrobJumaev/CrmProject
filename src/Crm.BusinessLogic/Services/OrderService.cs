@@ -1,7 +1,5 @@
-﻿namespace Crm.Serices;
-
+﻿namespace Crm.BusinessLogic;
 using Crm.DataAccess;
-using Crm.interfaces;
 
 public class OrderService : IOrderService
 {
@@ -17,7 +15,8 @@ public class OrderService : IOrderService
             Price = orderDto.Price,
             OrderDate = orderDto.OrderDate,
             DeliveryType = orderDto.DeliveryType,
-            DeliveryAddress = orderDto.DeliveryAddress
+            DeliveryAddress = orderDto.DeliveryAddress,
+            OrderState = orderDto.OrderState
         };
 
         _createdOrdersList.Add(order);
@@ -70,5 +69,19 @@ public class OrderService : IOrderService
     private int NextId()
     {
         return ++_id;
+    }
+
+    public Order UpdateOrderStateById(int id, OrderState state)
+    {
+        Order order = _createdOrdersList.Find(o => o.Id == id);
+
+        if(order == null)
+        {
+            return null;
+        }
+
+        order.OrderState = state;
+
+        return order;
     }
 }

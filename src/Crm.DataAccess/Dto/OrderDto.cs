@@ -8,4 +8,6 @@ public readonly struct OrderDto
     public DateTime OrderDate { get; init; }
     public DeliveryType DeliveryType { get; init; }
     public string DeliveryAddress { get; init; }
+    public OrderState OrderState {get;init;}
+
 }

@@ -7,6 +7,7 @@ public class Order
     private DateTime? _orderDate;
     private DeliveryType? _deliveryType;
     private string? _deliveryAddress;
+    private OrderState? _orderState;
 
     public int Id { get; set; }
 
@@ -38,5 +39,11 @@ public class Order
     {
         get => _deliveryAddress ?? string.Empty;
         init => _deliveryAddress = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
+    }
+
+    public required OrderState? OrderState
+    {
+        get => _orderState ?? null;
+        set => _orderState = value is not null ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 }

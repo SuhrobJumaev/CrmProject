@@ -1,4 +1,4 @@
-﻿namespace Crm.interfaces;
+﻿namespace Crm.BusinessLogic;
 
 
 using Crm.DataAccess;

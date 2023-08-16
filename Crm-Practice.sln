@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm", "src\Crm\Crm.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.DataAccess", "src\Crm.DataAccess\Crm.DataAccess.csproj", "{9980C16F-ABE0-4E50-91C0-110A11E29F7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.BusinessLogic", "src\Crm.BusinessLogic\Crm.BusinessLogic.csproj", "{0E5C5A0C-85FD-445B-B427-B930D800FD5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +28,14 @@ Global
 		{9980C16F-ABE0-4E50-91C0-110A11E29F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9980C16F-ABE0-4E50-91C0-110A11E29F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9980C16F-ABE0-4E50-91C0-110A11E29F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E5C5A0C-85FD-445B-B427-B930D800FD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E5C5A0C-85FD-445B-B427-B930D800FD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E5C5A0C-85FD-445B-B427-B930D800FD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E5C5A0C-85FD-445B-B427-B930D800FD5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BD94D7BB-0267-41A5-B0C9-E842061FBF23} = {59414B8C-2751-40D9-B587-29639282A042}
 		{9980C16F-ABE0-4E50-91C0-110A11E29F7F} = {59414B8C-2751-40D9-B587-29639282A042}
+		{0E5C5A0C-85FD-445B-B427-B930D800FD5E} = {59414B8C-2751-40D9-B587-29639282A042}
 	EndGlobalSection
 EndGlobal

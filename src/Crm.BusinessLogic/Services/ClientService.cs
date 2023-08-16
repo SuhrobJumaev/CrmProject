@@ -1,8 +1,6 @@
-﻿namespace Crm.Serices;
-
+﻿namespace Crm.BusinessLogic;
 
 using Crm.DataAccess;
-using Crm.interfaces;
 
 
 public sealed class ClientService : IClientService
@@ -73,4 +71,5 @@ public sealed class ClientService : IClientService
     {
         return ++_id;
     }
+
 }
