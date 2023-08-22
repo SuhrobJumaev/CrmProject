@@ -8,7 +8,7 @@ public interface IOrderService
     List<Order> GetOrderByDescription(string description);
     Order GetOrderById(int id);
     List<Order> GetListCreatedOrders();
-    Order UpdateOrderById(int id, string description);
-    Order UpdateOrderStateById (int id, OrderState state);
+    bool UpdateOrderById(int id, string description);
+    bool UpdateOrderStateById (int id, OrderState state);
     bool DeleteOrder(int id);
 }

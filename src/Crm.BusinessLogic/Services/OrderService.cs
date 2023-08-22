@@ -25,12 +25,12 @@ public class OrderService : IOrderService
 
     public List<Order> GetOrderByDescription(string description)
     {
-        return _createdOrdersList.FindAll(c => c.Description == description).ToList();
+        return _createdOrdersList.Where(c => c.Description == description).ToList();
     }
 
     public Order GetOrderById(int id)
     {
-        return _createdOrdersList.Find(c => c.Id == id);
+        return _createdOrdersList.FirstOrDefault(c => c.Id == id);
     }
 
     public List<Order> GetListCreatedOrders()
@@ -38,32 +38,31 @@ public class OrderService : IOrderService
         return _createdOrdersList;
     }
 
-    public Order UpdateOrderById(int id, string description)
+    public bool UpdateOrderById(int id, string description)
     {
-        Order order = _createdOrdersList.Find(c => c.Id == id);
+        var order = _createdOrdersList.FirstOrDefault(c => c.Id == id);
 
-        if(order == null)
-        {
-            return null;
-        }
-
-        order.Description = description;
-
-        return order;
-    }
-
-    public bool DeleteOrder(int id)
-    {
-        Order order = _createdOrdersList.Find(c => c.Id == id);
-
-        if(order == null)
+        if(order is null)
         {
             return false;
         }
 
-        var result = _createdOrdersList.Remove(order);
+        order.Description = description;
+        
+        return true;
+    }
 
-        return result;
+    public bool DeleteOrder(int id)
+    {
+        Order order = _createdOrdersList.FirstOrDefault(c => c.Id == id);
+
+        if(order is null)
+        {
+            return false;
+        }
+
+        return _createdOrdersList.Remove(order);
+       
     }
 
     private int NextId()
@@ -71,17 +70,17 @@ public class OrderService : IOrderService
         return ++_id;
     }
 
-    public Order UpdateOrderStateById(int id, OrderState state)
+    public bool UpdateOrderStateById(int id, OrderState state)
     {
-        Order order = _createdOrdersList.Find(o => o.Id == id);
-
-        if(order == null)
+        var order = _createdOrdersList.FirstOrDefault(o => o.Id == id);
+        
+        if(order is null)
         {
-            return null;
+            return false;
         }
 
         order.OrderState = state;
-
-        return order;
+       
+        return true;
     }
 }
