@@ -1,7 +1,5 @@
-﻿namespace Crm.Serices;
-
+﻿namespace Crm.BusinessLogic;
 using Crm.DataAccess;
-using Crm.interfaces;
 
 public class OrderService : IOrderService
 {
@@ -17,7 +15,8 @@ public class OrderService : IOrderService
             Price = orderDto.Price,
             OrderDate = orderDto.OrderDate,
             DeliveryType = orderDto.DeliveryType,
-            DeliveryAddress = orderDto.DeliveryAddress
+            DeliveryAddress = orderDto.DeliveryAddress,
+            OrderState = orderDto.OrderState
         };
 
         _createdOrdersList.Add(order);
@@ -26,12 +25,12 @@ public class OrderService : IOrderService
 
     public List<Order> GetOrderByDescription(string description)
     {
-        return _createdOrdersList.FindAll(c => c.Description == description).ToList();
+        return _createdOrdersList.Where(c => c.Description == description).ToList();
     }
 
     public Order GetOrderById(int id)
     {
-        return _createdOrdersList.Find(c => c.Id == id);
+        return _createdOrdersList.FirstOrDefault(c => c.Id == id);
     }
 
     public List<Order> GetListCreatedOrders()
@@ -39,36 +38,49 @@ public class OrderService : IOrderService
         return _createdOrdersList;
     }
 
-    public Order UpdateOrderById(int id, string description)
+    public bool UpdateOrderById(int id, string description)
     {
-        Order order = _createdOrdersList.Find(c => c.Id == id);
+        var order = _createdOrdersList.FirstOrDefault(c => c.Id == id);
 
-        if(order == null)
-        {
-            return null;
-        }
-
-        order.Description = description;
-
-        return order;
-    }
-
-    public bool DeleteOrder(int id)
-    {
-        Order order = _createdOrdersList.Find(c => c.Id == id);
-
-        if(order == null)
+        if(order is null)
         {
             return false;
         }
 
-        var result = _createdOrdersList.Remove(order);
+        order.Description = description;
+        
+        return true;
+    }
 
-        return result;
+    public bool DeleteOrder(int id)
+    {
+        Order order = _createdOrdersList.FirstOrDefault(c => c.Id == id);
+
+        if(order is null)
+        {
+            return false;
+        }
+
+        return _createdOrdersList.Remove(order);
+       
     }
 
     private int NextId()
     {
         return ++_id;
+    }
+
+    public bool UpdateOrderStateById(int id, OrderState state)
+    {
+        var order = _createdOrdersList.FirstOrDefault(o => o.Id == id);
+        
+        if(order is null)
+        {
+            return false;
+        }
+
+        order.OrderState = state;
+       
+        return true;
     }
 }

@@ -13,6 +13,7 @@ public enum CommandsType : short
     UpdateClientById = 9,
     DeleteClient = 10,
     UpdateOrderById = 11,
-    DeleteOrder = 12
+    DeleteOrder = 12,
+    UpdateOrderStatus = 13,
 
 }

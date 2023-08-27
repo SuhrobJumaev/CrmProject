@@ -1,8 +1,6 @@
-﻿namespace Crm.Serices;
-
+﻿namespace Crm.BusinessLogic;
 
 using Crm.DataAccess;
-using Crm.interfaces;
 
 
 public sealed class ClientService : IClientService
@@ -37,40 +35,39 @@ public sealed class ClientService : IClientService
 
     public List<Client> GetClientByNameAndSurname(string firstName, string lastName)
     {
-        return _createdClientsList.FindAll(c => c.FirstName == firstName && c.LastName == lastName).ToList();
+        return _createdClientsList.Where(c => c.FirstName == firstName && c.LastName == lastName).ToList();
     }
 
-    public Client UpdateClientById(int id, string firstName, string lastName)
+    public bool UpdateClientById(int id, string firstName, string lastName)
     {
-        Client client  = _createdClientsList.Find(c => c.Id == id); 
+        Client client  = _createdClientsList.FirstOrDefault(c => c.Id == id); 
 
-        if(client == null)
+        if(client is null)
         {
-            return null;
+            return false;
         }
 
         client.FirstName = firstName;
         client.LastName = lastName;
 
-        return client;
+        return true;
     }
 
     public bool DeleteClient(int id)
     {
         Client client  = _createdClientsList.Find(c => c.Id == id); 
         
-        if(client == null)
+        if(client is null)
         {
             return false;
         }
         
-        var result = _createdClientsList.Remove(client);
-
-        return result;
+        return  _createdClientsList.Remove(client);
     }
 
      private int NextId()
     {
         return ++_id;
     }
+
 }

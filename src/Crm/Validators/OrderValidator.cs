@@ -59,6 +59,21 @@ public static class OrderValidator
         return true;
     }
 
+    public static bool IsValidOrderState(string? orderStateString, out short orderStateNumber)
+    {
+        if (!short.TryParse(orderStateString, out orderStateNumber))
+        {
+            return false;
+        }
+
+        if (!orderStateString.Equals("1") & !orderStateString.Equals("2") & !orderStateString.Equals("3"))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public static bool IsValidDeliverAddress(string deliverAddress)
     {
         if (string.IsNullOrEmpty(deliverAddress) || string.IsNullOrWhiteSpace(deliverAddress))

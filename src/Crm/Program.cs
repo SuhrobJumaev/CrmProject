@@ -1,8 +1,7 @@
 ﻿
 using System.Text;
+using Crm.BusinessLogic;
 using Crm.DataAccess;
-using Crm.interfaces;
-using Crm.Serices;
 using Crm.Validators;
 
 IClientService clientService = new ClientService();
@@ -25,7 +24,6 @@ var command = (CommandsType)commandNumber;
 
 while (command != CommandsType.Exit)
 {
-
     switch (command)
     {
         case CommandsType.CreateClient:
@@ -76,6 +74,7 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Тип доставки: " + order.DeliveryType);
             Console.WriteLine("Дата заказа: " + order.OrderDate?.ToString("yyyy-MM-dd"));
             Console.WriteLine("Адрес доставки: " + order.DeliveryAddress);
+            Console.WriteLine("Статус заказа: " + order.OrderState);
             break;
 
         case CommandsType.ListCreatedClients:
@@ -148,6 +147,7 @@ while (command != CommandsType.Exit)
                 Console.WriteLine("Тип доставки: " + item.DeliveryType);
                 Console.WriteLine("Дата заказа: " + item.OrderDate?.ToString("yyyy-MM-dd"));
                 Console.WriteLine("Адрес доставки: " + item.DeliveryAddress);
+                Console.WriteLine("Статус заказа: " + item.OrderState);
                 AddNewEmptyLine();
             }
 
@@ -267,14 +267,13 @@ while (command != CommandsType.Exit)
 
         case CommandsType.GetOrderById:
 
-            Console.WriteLine("Поиск клиента по ID");
-
-            int id;
+            Console.WriteLine("Поиск заказа по ID");
 
             AddNewEmptyLine();
             Console.WriteLine("ID заказа: ");
             var idString = Console.ReadLine();
 
+            int id;
             while (!OrderValidator.IsValidId(idString, out id))
             {
                 AddNewEmptyLine();
@@ -307,12 +306,11 @@ while (command != CommandsType.Exit)
         case CommandsType.UpdateClientById:
             Console.WriteLine("Обновления пользователя по ID");
 
-            int clientId;
-
             AddNewEmptyLine();
             Console.WriteLine("ID клиента: ");
             var clientIdString = Console.ReadLine();
 
+            int clientId;
             while (!ClientValidator.IsValidId(clientIdString, out clientId))
             {
                 AddNewEmptyLine();
@@ -341,45 +339,32 @@ while (command != CommandsType.Exit)
                 clientLastName = Console.ReadLine();
             }
 
-            Client updatedClient = clientService.UpdateClientById(clientId,clientFirstName,clientLastName);
-            
-            if(updatedClient == null)
+            bool isUpdatedClient = clientService.UpdateClientById(clientId, clientFirstName, clientLastName);
+
+            if (!isUpdatedClient)
             {
                 Console.WriteLine($"Клиент по ID {clientId} не был обновлен!");
                 break;
             }
-            
-            Console.WriteLine(strBuilder);
-            Console.WriteLine("Клиент успешно создан");
 
-            AddNewEmptyLine();
-            Console.WriteLine("ID клиента: " + updatedClient.Id);
-            Console.WriteLine("Имя клиента: " + updatedClient.FirstName);
-            Console.WriteLine("Фамилия клиента: " + updatedClient.LastName);
-            Console.WriteLine("Отчество клиента: " + updatedClient.MiddleName);
-            Console.WriteLine("Возраст клиента: " + updatedClient.Age);
-            Console.WriteLine("Серия и номер паспорта клиента: " + updatedClient.PassportNumber);
-            Console.WriteLine("Пол: " + updatedClient.Gender);
-            Console.WriteLine("Номер телефона: " + updatedClient.Phone);
-            Console.WriteLine("Почта: " + updatedClient.Email);
-
+            Console.WriteLine($"Клиент успешно обновлен. ID клиента - {clientId}");
             break;
 
         case CommandsType.DeleteClient:
             Console.WriteLine("Удаления пользователя по ID");
 
-            int clientIdForRemove;
-
             AddNewEmptyLine();
             Console.WriteLine("ID клиента: ");
             var clientIdForRemoveString = Console.ReadLine();
 
+            int clientIdForRemove;
             while (!ClientValidator.IsValidId(clientIdForRemoveString, out clientIdForRemove))
             {
                 AddNewEmptyLine();
                 Console.WriteLine("Id клиента: ");
                 clientIdForRemoveString = Console.ReadLine();
             }
+
             bool result = clientService.DeleteClient(clientIdForRemove);
 
             if (result == false)
@@ -391,16 +376,15 @@ while (command != CommandsType.Exit)
             Console.WriteLine($"Клиент по ID {clientIdForRemove} успешно удален!");
             break;
 
-        case CommandsType.UpdateOrderById: 
-            
-            Console.WriteLine("Обновления клиента по ID");
+        case CommandsType.UpdateOrderById:
 
-            int orderId;
+            Console.WriteLine("Обновления заказа по ID");
 
             AddNewEmptyLine();
             Console.WriteLine("ID заказа: ");
             var idOrderString = Console.ReadLine();
 
+            int orderId;
             while (!OrderValidator.IsValidId(idOrderString, out orderId))
             {
                 AddNewEmptyLine();
@@ -418,36 +402,26 @@ while (command != CommandsType.Exit)
                 orderDescription = Console.ReadLine();
             }
 
-            Order updatedOrder = orderService.UpdateOrderById(orderId, orderDescription);
+            bool isUpdatedOrder = orderService.UpdateOrderById(orderId, orderDescription);
 
-            if(updatedOrder == null)
+            if (!isUpdatedOrder)
             {
                 Console.WriteLine($"Не удалось обновить заказ по ID {orderId}");
                 break;
             }
 
-            Console.WriteLine(strBuilder);
-            Console.WriteLine($"Обновленный заказ по ID {orderId}");
-            AddNewEmptyLine();
-
-            Console.WriteLine("ID заказа: " + updatedOrder.Id);
-            Console.WriteLine("Описания заказа: " + updatedOrder.Description);
-            Console.WriteLine("Цена: " + updatedOrder.Price);
-            Console.WriteLine("Тип доставки: " + updatedOrder.DeliveryType);
-            Console.WriteLine("Дата заказа: " + updatedOrder.OrderDate?.ToString("yyyy-MM-dd"));
-            Console.WriteLine("Адрес доставки: " + updatedOrder.DeliveryAddress);
+            Console.WriteLine($"Заказ был успешно обновлен! ID заказа - {orderId}");
             
             break;
 
         case CommandsType.DeleteOrder:
             Console.WriteLine("Удаления заказа по ID");
 
-            int orderIdForRemove;
-
             AddNewEmptyLine();
             Console.WriteLine("ID заказа: ");
             var orderIdForRemoveString = Console.ReadLine();
-
+            
+            int orderIdForRemove;
             while (!OrderValidator.IsValidId(orderIdForRemoveString, out orderIdForRemove))
             {
                 AddNewEmptyLine();
@@ -456,7 +430,7 @@ while (command != CommandsType.Exit)
             }
 
             var resultRemove = orderService.DeleteOrder(orderIdForRemove);
-            
+
             if (resultRemove == false)
             {
                 Console.WriteLine($"Не получилось удалить заказ по ID {orderIdForRemove}!");
@@ -466,6 +440,46 @@ while (command != CommandsType.Exit)
             Console.WriteLine($"Заказ по ID {orderIdForRemove} успешно удален!");
             break;
 
+        case CommandsType.UpdateOrderStatus:
+
+            Console.WriteLine("Обновления статуса заказа по ID");
+
+            AddNewEmptyLine();
+            Console.WriteLine("ID заказа: ");
+            var idForUpdateStateString = Console.ReadLine();
+
+            int idForUpdateState;
+            while (!OrderValidator.IsValidId(idForUpdateStateString, out idForUpdateState))
+            {
+                AddNewEmptyLine();
+                Console.WriteLine("Id заказа: ");
+                idForUpdateStateString = Console.ReadLine();
+            }
+
+            AddNewEmptyLine();
+            Console.WriteLine("Статус заказа: {1 - Pending} {2 - Approved} {3 - Cancelled} ");
+            var orderStateString = Console.ReadLine();
+
+            short orderStateNumber;
+            while (!OrderValidator.IsValidOrderState(orderStateString, out orderStateNumber))
+            {
+                Console.WriteLine("Тип доставки: {1 - Pending} {2 - Approved} {3 - Cancelled} ");
+                orderStateString = Console.ReadLine();
+            }
+
+            var orderState  = (OrderState)orderStateNumber;
+
+            bool isUpdatedOrderState = orderService.UpdateOrderStateById(idForUpdateState,orderState);
+
+            if (!isUpdatedOrderState)
+            {
+                Console.WriteLine($"Не удалось обновить статус заказ по ID {idForUpdateState}");
+                break;
+            }
+
+            Console.WriteLine($"Статус заказ успешно обновлен! ID заказа - {idForUpdateState}");   
+
+            break;
         default:
             Console.WriteLine("Неизвестная команда!");
             break;
@@ -506,10 +520,10 @@ Client CreateClient()
     Console.WriteLine("Введите отчества клиента: {НЕОБЯЗАТЕЛЬНОЕ ПОЛЕ} ");
     var middleName = Console.ReadLine();
 
-    short age;
     Console.WriteLine("Укажите возраст клиента: ");
     var ageString = Console.ReadLine();
 
+    short age;
     while (!ClientValidator.IsValidAge(ageString, out age))
     {
         Console.WriteLine("Укажите возраст клиента: ");
@@ -525,10 +539,10 @@ Client CreateClient()
         passportNumber = Console.ReadLine();
     }
 
-    short genderNumber;
     Console.WriteLine("Укажите пол клиента: {1 - М} {2 - Ж} ");
     var genderString = Console.ReadLine();
 
+    short genderNumber;
     while (!ClientValidator.IsValidGender(genderString, out genderNumber))
     {
         Console.WriteLine("Укажите пол клиента: {1 - М} {2 - Ж} ");
@@ -597,30 +611,31 @@ Order CreateOrder()
         description = Console.ReadLine();
     }
 
-    decimal price;
+    
     Console.WriteLine("Цена заказа: ");
     var priceString = Console.ReadLine();
 
+    decimal price;
     while (!OrderValidator.IsValidPrice(priceString, out price))
     {
         Console.WriteLine("Цена заказа: ");
         priceString = Console.ReadLine();
     }
 
-    DateTime orderDate;
     Console.WriteLine("Укажите дату: {формат - гггг-ММ-дд} ");
     var dateString = Console.ReadLine();
 
+    DateTime orderDate;
     while (!OrderValidator.IsValidDate(dateString, out orderDate))
     {
         Console.WriteLine("Укажите дату: {формат - гггг-мм-дд} ");
         dateString = Console.ReadLine();
     }
 
-    short deliverTypeNumber;
     Console.WriteLine("Тип доставки: {1 - Express} {2 - Standart} {3 - Free} ");
     var deliverTypeString = Console.ReadLine();
 
+    short deliverTypeNumber;
     while (!OrderValidator.IsValidDeliverType(deliverTypeString, out deliverTypeNumber))
     {
         Console.WriteLine("Тип доставки: {1 - Express} {2 - Standart} {3 - Free} ");
@@ -645,6 +660,7 @@ Order CreateOrder()
         OrderDate = orderDate,
         DeliveryType = deliveryType,
         DeliveryAddress = deliveryAddress,
+        OrderState = OrderState.Pending
     };
 
     var newOrder = orderService.CreateOrder(orderDto);
@@ -666,7 +682,9 @@ static string GetAvailableCommands()
     {9 - обновить клиента по ID},
     {10 - удалить клиента},
     {11 - обновить заказ по ID},
-    {12 - удалить заказ }'";
+    {12 - удалить заказ }'
+    {13 - изменить статус заказа}";
+
 }
 
 static void AddNewEmptyLine()

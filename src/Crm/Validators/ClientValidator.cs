@@ -21,7 +21,6 @@ public static class ClientValidator
         return true;
     }
 
-    
     public static bool IsValidFirstName(string? firstName)
     {
         if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(firstName))
