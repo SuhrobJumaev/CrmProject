@@ -6,36 +6,30 @@ public class OrderService : IOrderService
     private readonly List<Order> _createdOrdersList = new();
     private int _id = 0;
 
-    public Order CreateOrder(OrderDto orderDto)
+    public OrderDto CreateOrder(OrderDto orderDto)
     {
-        Order order = new()
-        {
-            Id = NextId(),
-            Description = orderDto.Description,
-            Price = orderDto.Price,
-            OrderDate = orderDto.OrderDate,
-            DeliveryType = orderDto.DeliveryType,
-            DeliveryAddress = orderDto.DeliveryAddress,
-            OrderState = orderDto.OrderState
-        };
-
+        Order order = orderDto.OrderDtoToOrder();
+        
+        order.OrderState = OrderState.Pending;
+        
         _createdOrdersList.Add(order);
-        return order;
+        
+        return order.OrderToOrderDto();
     }
 
-    public List<Order> GetOrderByDescription(string description)
+    public List<OrderDto> GetOrderByDescription(string description)
     {
-        return _createdOrdersList.Where(c => c.Description == description).ToList();
+        return _createdOrdersList.Where(c => c.Description == description).ToList().OrderListToOrderDtoList();
     }
 
-    public Order GetOrderById(int id)
+    public OrderDto GetOrderById(int id)
     {
-        return _createdOrdersList.FirstOrDefault(c => c.Id == id);
+        return _createdOrdersList.FirstOrDefault(c => c.Id == id).OrderToOrderDto();
     }
 
-    public List<Order> GetListCreatedOrders()
+    public List<OrderDto> GetListCreatedOrders()
     {
-        return _createdOrdersList;
+        return _createdOrdersList.OrderListToOrderDtoList();
     }
 
     public bool UpdateOrderById(int id, string description)
@@ -69,7 +63,7 @@ public class OrderService : IOrderService
     {
         return ++_id;
     }
-
+    
     public bool UpdateOrderStateById(int id, OrderState state)
     {
         var order = _createdOrdersList.FirstOrDefault(o => o.Id == id);

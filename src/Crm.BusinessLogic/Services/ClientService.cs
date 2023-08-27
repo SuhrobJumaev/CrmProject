@@ -8,34 +8,24 @@ public sealed class ClientService : IClientService
     private readonly List<Client> _createdClientsList = new();
     private int _id;
 
-    public Client CreateClient(ClientDto clientDto)
+    public ClientDto CreateClient(ClientDto clientDto)
     {
-
-        Client client = new()
-        {
-            Id  = NextId(),
-            FirstName = clientDto.FirstName,
-            LastName = clientDto.LastName,
-            MiddleName = clientDto.MiddleName,
-            Age = clientDto.Age,
-            PassportNumber = clientDto.PassportNumber,
-            Gender = clientDto.Gender,
-            Phone = clientDto.Phone,
-            Email = clientDto.Email,
-            Password = clientDto.Password
-        };
+        Client client = clientDto.ClientDtoToClient();
+        
         _createdClientsList.Add(client);
-        return client;
+
+        return client.ClientToClientDto();
     }
 
-    public List<Client> GetListAllCreatedClients()
+    public List<ClientDto> GetListAllCreatedClients()
     {
-        return _createdClientsList;
+        return _createdClientsList.ClientListToClientDtoList();
     }
 
-    public List<Client> GetClientByNameAndSurname(string firstName, string lastName)
+    public List<ClientDto> GetClientByNameAndSurname(string firstName, string lastName)
     {
-        return _createdClientsList.Where(c => c.FirstName == firstName && c.LastName == lastName).ToList();
+        List<Client> clients = _createdClientsList.Where(c => c.FirstName == firstName && c.LastName == lastName).ToList();
+        return clients.ClientListToClientDtoList();
     }
 
     public bool UpdateClientById(int id, string firstName, string lastName)

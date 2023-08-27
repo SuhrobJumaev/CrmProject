@@ -1,8 +1,8 @@
 ﻿
 using System.Text;
 using Crm.BusinessLogic;
-using Crm.DataAccess;
 using Crm.Validators;
+using Crm.Enums;
 
 IClientService clientService = new ClientService();
 IOrderService orderService = new OrderService();
@@ -55,7 +55,7 @@ while (command != CommandsType.Exit)
 
         case CommandsType.CreateOrder:
 
-            var order = CreateOrder();
+            OrderDto order = CreateOrder();
 
             if (order == null)
             {
@@ -497,7 +497,7 @@ while (command != CommandsType.Exit)
     command = (CommandsType)commandNumber;
 }
 
-Client CreateClient()
+ClientDto? CreateClient()
 {
     Console.WriteLine("Введите имя клиента: ");
     var firstName = Console.ReadLine();
@@ -579,8 +579,6 @@ Client CreateClient()
         password = Console.ReadLine();
     }
 
-    var gender = (Gender)genderNumber;
-
     var clientDto = new ClientDto()
     {
         FirstName = firstName,
@@ -588,11 +586,10 @@ Client CreateClient()
         MiddleName = middleName,
         Age = age,
         PassportNumber = passportNumber,
-        Gender = gender,
+        Gender = genderNumber,
         Phone = phone,
         Email = email,
         Password = password
-
     };
 
     var newClient = clientService.CreateClient(clientDto);
@@ -600,7 +597,7 @@ Client CreateClient()
     return newClient;
 }
 
-Order CreateOrder()
+OrderDto? CreateOrder()
 {
     Console.WriteLine("Описания заказа: ");
     var description = Console.ReadLine();
@@ -642,8 +639,6 @@ Order CreateOrder()
         deliverTypeString = Console.ReadLine();
     }
 
-    var deliveryType = (DeliveryType)deliverTypeNumber;
-
     Console.WriteLine("Адрес доставки: ");
     var deliveryAddress = Console.ReadLine();
 
@@ -658,9 +653,8 @@ Order CreateOrder()
         Description = description,
         Price = price,
         OrderDate = orderDate,
-        DeliveryType = deliveryType,
+        DeliveryType = deliverTypeNumber,
         DeliveryAddress = deliveryAddress,
-        OrderState = OrderState.Pending
     };
 
     var newOrder = orderService.CreateOrder(orderDto);

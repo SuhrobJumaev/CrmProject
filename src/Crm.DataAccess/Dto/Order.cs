@@ -1,6 +1,6 @@
 ﻿namespace Crm.DataAccess;
 
-public readonly struct OrderDto
+public readonly struct Order1
 {
     public int Id { get; init; }
     public string Description { get; init; }
