@@ -3,78 +3,66 @@ using Crm.DataAccess;
 
 public class OrderService : IOrderService
 {
-    private readonly List<Order> _createdOrdersList = new();
-    private int _id = 0;
-
-    public OrderDto CreateOrder(OrderDto orderDto)
+    private readonly IOrderRepository _orderRepository;
+    public OrderService(IOrderRepository orderRepository)
     {
-        Order order = orderDto.OrderDtoToOrder();
+        _orderRepository = orderRepository;
+    }
+
+    public OrderDto? CreateOrder(OrderDto orderDto)
+    {
+        Order order = _orderRepository.Create(orderDto.OrderDtoToOrder());
         
-        order.OrderState = OrderState.Pending;
-        
-        _createdOrdersList.Add(order);
-        
+        if(order is null)
+            return null;
+
         return order.OrderToOrderDto();
     }
 
-    public List<OrderDto> GetOrderByDescription(string description)
+    public List<OrderDto>? GetOrderByDescription(string description)
     {
-        return _createdOrdersList.Where(c => c.Description == description).ToList().OrderListToOrderDtoList();
+        List<Order> orders = _orderRepository.GetOrderByDescription(description);
+        
+        if(orders is null)
+            return null;
+
+        return  orders.OrderListToOrderDtoList();
     }
 
-    public OrderDto GetOrderById(int id)
+    public OrderDto? GetOrderById(int id)
     {
-        return _createdOrdersList.FirstOrDefault(c => c.Id == id).OrderToOrderDto();
+        Order order = _orderRepository.Get(id);
+        
+        if(order is null)
+            return null;
+
+        return order.OrderToOrderDto();
     }
 
-    public List<OrderDto> GetListCreatedOrders()
+    public List<OrderDto>? GetListCreatedOrders()
     {
-        return _createdOrdersList.OrderListToOrderDtoList();
+        List<Order> orders = _orderRepository.GetAll();
+
+        if(orders is null)
+            return null;
+        
+        return orders.OrderListToOrderDtoList();
     }
 
     public bool UpdateOrderById(int id, string description)
     {
-        var order = _createdOrdersList.FirstOrDefault(c => c.Id == id);
-
-        if(order is null)
-        {
-            return false;
-        }
-
-        order.Description = description;
-        
-        return true;
+        return _orderRepository.UpdateOrderById(id, description);
     }
 
     public bool DeleteOrder(int id)
     {
-        Order order = _createdOrdersList.FirstOrDefault(c => c.Id == id);
-
-        if(order is null)
-        {
-            return false;
-        }
-
-        return _createdOrdersList.Remove(order);
-       
-    }
-
-    private int NextId()
-    {
-        return ++_id;
+        return _orderRepository.Delete(id);
     }
     
-    public bool UpdateOrderStateById(int id, OrderState state)
+    public bool UpdateOrderStateById(int id, int state)
     {
-        var order = _createdOrdersList.FirstOrDefault(o => o.Id == id);
+        OrderState orderState = (OrderState)state;
         
-        if(order is null)
-        {
-            return false;
-        }
-
-        order.OrderState = state;
-       
-        return true;
+        return _orderRepository.UpdateOrderStateById(id, orderState);
     }
 }

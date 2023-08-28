@@ -2,7 +2,7 @@
 
 public class Client
 {
-    private readonly int _id;
+    private int _id;
     private  string? _firstName;
     private  string? _lastName;
     private string? _middleName;
@@ -16,7 +16,7 @@ public class Client
     public int Id
     {
         get => _id;
-        init => _id = value;
+        set => _id = value;
     }
     public required string FirstName
     {

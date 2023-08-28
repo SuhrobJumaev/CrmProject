@@ -5,59 +5,50 @@ using Crm.DataAccess;
 
 public sealed class ClientService : IClientService
 {
-    private readonly List<Client> _createdClientsList = new();
-    private int _id;
+    private readonly IClientRepository _clientRepository;
 
-    public ClientDto CreateClient(ClientDto clientDto)
+    public ClientService(IClientRepository clientRepository)
     {
-        Client client = clientDto.ClientDtoToClient();
+        _clientRepository = clientRepository;
+    }
+
+    public ClientDto? CreateClient(ClientDto clientDto)
+    {
+        Client client = _clientRepository.Create(clientDto.ClientDtoToClient());
         
-        _createdClientsList.Add(client);
+        if(client is null)
+            return null;
 
         return client.ClientToClientDto();
     }
 
-    public List<ClientDto> GetListAllCreatedClients()
+    public List<ClientDto>? GetListAllCreatedClients()
     {
-        return _createdClientsList.ClientListToClientDtoList();
+        List<Client> clients = _clientRepository.GetAll();
+
+        if(clients is null)
+            return null;
+
+        return clients.ClientListToClientDtoList();
     }
 
-    public List<ClientDto> GetClientByNameAndSurname(string firstName, string lastName)
+    public List<ClientDto>? GetClientByNameAndSurname(string firstName, string lastName)
     {
-        List<Client> clients = _createdClientsList.Where(c => c.FirstName == firstName && c.LastName == lastName).ToList();
+        List<Client> clients = _clientRepository.GetClientByNameAndSurname(firstName, lastName);
+
+        if(clients is null)
+            return null;
+
         return clients.ClientListToClientDtoList();
     }
 
     public bool UpdateClientById(int id, string firstName, string lastName)
     {
-        Client client  = _createdClientsList.FirstOrDefault(c => c.Id == id); 
-
-        if(client is null)
-        {
-            return false;
-        }
-
-        client.FirstName = firstName;
-        client.LastName = lastName;
-
-        return true;
+        return _clientRepository.UpdateClientById(id,firstName, lastName);
     }
 
     public bool DeleteClient(int id)
     {
-        Client client  = _createdClientsList.Find(c => c.Id == id); 
-        
-        if(client is null)
-        {
-            return false;
-        }
-        
-        return  _createdClientsList.Remove(client);
+        return _clientRepository.Delete(id);
     }
-
-     private int NextId()
-    {
-        return ++_id;
-    }
-
 }

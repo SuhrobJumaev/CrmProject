@@ -467,9 +467,7 @@ while (command != CommandsType.Exit)
                 orderStateString = Console.ReadLine();
             }
 
-            var orderState  = (OrderState)orderStateNumber;
-
-            bool isUpdatedOrderState = orderService.UpdateOrderStateById(idForUpdateState,orderState);
+            bool isUpdatedOrderState = orderService.UpdateOrderStateById(idForUpdateState,orderStateNumber);
 
             if (!isUpdatedOrderState)
             {
