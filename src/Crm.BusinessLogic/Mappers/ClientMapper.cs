@@ -8,7 +8,7 @@ public static class ClientMapper
     {
         return new ClientDto()
         {
-            Id= client.Id,
+            Id = client.Id,
             FirstName = client.FirstName,
             LastName = client.LastName,
             MiddleName = client.MiddleName,
@@ -43,6 +43,7 @@ public static class ClientMapper
 
         clientsDto = clients.Select(c => new ClientDto
         {
+            Id = c.Id,
             FirstName = c.FirstName,
             LastName = c.LastName,
             MiddleName = c.MiddleName,
@@ -63,6 +64,7 @@ public static class ClientMapper
 
         clients = clientsDto.Select(c => new Client
         {
+            Id = c.Id,
             FirstName = c.FirstName,
             LastName = c.LastName,
             MiddleName = c.MiddleName,

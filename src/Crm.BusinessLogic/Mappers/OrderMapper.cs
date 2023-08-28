@@ -8,6 +8,7 @@ public static class OrderMapper
     {
         return new () 
         {
+            Id = orderDto.Id,
             Description = orderDto.Description,
             Price = orderDto.Price,
             OrderDate = orderDto.OrderDate,
@@ -19,6 +20,7 @@ public static class OrderMapper
     {
         return new () 
         {
+            Id = order.Id,
             Description = order.Description,
             Price = order.Price,
             OrderDate = order.OrderDate,
@@ -33,6 +35,7 @@ public static class OrderMapper
 
         ordersDto = orders.Select(c => new OrderDto
         {
+            Id = c.Id,
             Description = c.Description,
             Price = c.Price,
             OrderDate = c.OrderDate,
@@ -49,6 +52,7 @@ public static class OrderMapper
 
         orders = ordersDto.Select(c => new Order
         {
+            Id = c.Id,
             Description = c.Description,
             Price = c.Price,
             OrderDate = c.OrderDate,

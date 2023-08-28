@@ -4,8 +4,10 @@ using Crm.BusinessLogic;
 using Crm.Validators;
 using Crm.Enums;
 
-IClientService clientService = new ClientService();
-IOrderService orderService = new OrderService();
+
+IClientService clientService = ClientServiceFactory.CreateClientService();
+IOrderService orderService = OrderServiceFactory.CreateOrderService();
+IStatisticsService statisticsService = StatisticsServiceFactory.CreateStatisticsService();
 
 var strBuilder = new StringBuilder().Append('-', 100);
 
@@ -28,8 +30,8 @@ while (command != CommandsType.Exit)
     {
         case CommandsType.CreateClient:
 
-            var client = CreateClient();
-
+            ClientDto? client = CreateClient();
+        
             if (client == null)
             {
                 AddNewEmptyLine();
@@ -41,21 +43,21 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Клиент успешно создан");
 
             AddNewEmptyLine();
-            Console.WriteLine("ID клиента: " + client.Id);
-            Console.WriteLine("Имя клиента: " + client.FirstName);
-            Console.WriteLine("Фамилия клиента: " + client.LastName);
-            Console.WriteLine("Отчество клиента: " + client.MiddleName);
-            Console.WriteLine("Возраст клиента: " + client.Age);
-            Console.WriteLine("Серия и номер паспорта клиента: " + client.PassportNumber);
-            Console.WriteLine("Пол: " + client.Gender);
-            Console.WriteLine("Номер телефона: " + client.Phone);
-            Console.WriteLine("Почта: " + client.Email);
+            Console.WriteLine("ID клиента: " + client.Value.Id);
+            Console.WriteLine("Имя клиента: " + client.Value.FirstName);
+            Console.WriteLine("Фамилия клиента: " + client.Value.LastName);
+            Console.WriteLine("Отчество клиента: " + client.Value.MiddleName);
+            Console.WriteLine("Возраст клиента: " + client.Value.Age);
+            Console.WriteLine("Серия и номер паспорта клиента: " + client.Value.PassportNumber);
+            Console.WriteLine("Пол: " + client.Value.Gender);
+            Console.WriteLine("Номер телефона: " + client.Value.Phone);
+            Console.WriteLine("Почта: " + client.Value.Email);
 
             break;
 
         case CommandsType.CreateOrder:
 
-            OrderDto order = CreateOrder();
+            OrderDto? order = CreateOrder();
 
             if (order == null)
             {
@@ -68,13 +70,13 @@ while (command != CommandsType.Exit)
             Console.WriteLine("Заказ успешно создан");
             AddNewEmptyLine();
 
-            Console.WriteLine("ID заказа: " + order.Id);
-            Console.WriteLine("Описания заказа: " + order.Description);
-            Console.WriteLine("Цена: " + order.Price);
-            Console.WriteLine("Тип доставки: " + order.DeliveryType);
-            Console.WriteLine("Дата заказа: " + order.OrderDate?.ToString("yyyy-MM-dd"));
-            Console.WriteLine("Адрес доставки: " + order.DeliveryAddress);
-            Console.WriteLine("Статус заказа: " + order.OrderState);
+            Console.WriteLine("ID заказа: " + order.Value.Id);
+            Console.WriteLine("Описания заказа: " + order.Value.Description);
+            Console.WriteLine("Цена: " + order.Value.Price);
+            Console.WriteLine("Тип доставки: " + GetStringDeliveryType(order.Value.DeliveryType));
+            Console.WriteLine("Дата заказа: " + order.Value.OrderDate?.ToString("yyyy-MM-dd"));
+            Console.WriteLine("Адрес доставки: " + order.Value.DeliveryAddress);
+            Console.WriteLine("Статус заказа: " + GetStringOrderState(order.Value.OrderState));
             break;
 
         case CommandsType.ListCreatedClients:
@@ -144,10 +146,10 @@ while (command != CommandsType.Exit)
                 Console.WriteLine("ID заказа: " + item.Id);
                 Console.WriteLine("Описания заказа: " + item.Description);
                 Console.WriteLine("Цена: " + item.Price);
-                Console.WriteLine("Тип доставки: " + item.DeliveryType);
+                Console.WriteLine("Тип доставки: " + GetStringDeliveryType(item.DeliveryType));
                 Console.WriteLine("Дата заказа: " + item.OrderDate?.ToString("yyyy-MM-dd"));
                 Console.WriteLine("Адрес доставки: " + item.DeliveryAddress);
-                Console.WriteLine("Статус заказа: " + item.OrderState);
+                Console.WriteLine("Статус заказа: " + GetStringOrderState(item.OrderState));
                 AddNewEmptyLine();
             }
 
@@ -256,11 +258,11 @@ while (command != CommandsType.Exit)
                 Console.WriteLine("ID заказа: " + item.Id);
                 Console.WriteLine("Описания заказа: " + item.Description);
                 Console.WriteLine("Цена: " + item.Price);
-                Console.WriteLine("Тип доставки: " + item.DeliveryType);
+                Console.WriteLine("Тип доставки: " + GetStringDeliveryType(item.DeliveryType));
                 Console.WriteLine("Дата заказа: " + item.OrderDate?.ToString("yyyy-MM-dd"));
                 Console.WriteLine("Адрес доставки: " + item.DeliveryAddress);
+                Console.WriteLine("Статус заказа: " + GetStringOrderState(item.OrderState));
                 AddNewEmptyLine();
-
             }
 
             break;
@@ -294,12 +296,13 @@ while (command != CommandsType.Exit)
             Console.WriteLine($"Заказ по ID - {id} найден!");
             AddNewEmptyLine();
 
-            Console.WriteLine("ID заказа: " + foundOrder.Id);
-            Console.WriteLine("Описания заказа: " + foundOrder.Description);
-            Console.WriteLine("Цена: " + foundOrder.Price);
-            Console.WriteLine("Тип доставки: " + foundOrder.DeliveryType);
-            Console.WriteLine("Дата заказа: " + foundOrder.OrderDate?.ToString("yyyy-MM-dd"));
-            Console.WriteLine("Адрес доставки: " + foundOrder.DeliveryAddress);
+            Console.WriteLine("ID заказа: " + foundOrder.Value.Id);
+            Console.WriteLine("Описания заказа: " + foundOrder.Value.Description);
+            Console.WriteLine("Цена: " + foundOrder.Value.Price);
+            Console.WriteLine("Тип доставки: " + GetStringDeliveryType(foundOrder.Value.DeliveryType));
+            Console.WriteLine("Дата заказа: " + foundOrder.Value.OrderDate?.ToString("yyyy-MM-dd"));
+            Console.WriteLine("Адрес доставки: " + foundOrder.Value.DeliveryAddress);
+            Console.WriteLine("Статус заказа: " + GetStringOrderState(foundOrder.Value.OrderState));
 
             break;
 
@@ -478,6 +481,48 @@ while (command != CommandsType.Exit)
             Console.WriteLine($"Статус заказ успешно обновлен! ID заказа - {idForUpdateState}");   
 
             break;
+        
+        case CommandsType.TotalCountOrder: 
+            
+            int totalCountOrders = statisticsService.GetOrderCount();
+            
+            AddNewEmptyLine();
+            
+            Console.WriteLine("Общее количество созданных заказов: " + totalCountOrders);
+            
+            break;
+
+        case CommandsType.TotalCountClient: 
+            
+            int totalCountClient = statisticsService.GetClientsCount();
+            
+            AddNewEmptyLine();
+            
+            Console.WriteLine("Общее количество созданных клиентов: " + totalCountClient);
+            
+            break;
+
+         case CommandsType.TotalCountOrderByState: 
+            
+            AddNewEmptyLine();
+            
+            Console.WriteLine("Статус заказа: {1 - Pending} {2 - Approved} {3 - Cancelled} ");
+            var orderStateStringForStatistics = Console.ReadLine();
+
+            short orderStateNumberForStatistics;
+            while (!OrderValidator.IsValidOrderState(orderStateStringForStatistics, out orderStateNumberForStatistics))
+            {
+                Console.WriteLine("Тип доставки: {1 - Pending} {2 - Approved} {3 - Cancelled} ");
+                orderStateStringForStatistics = Console.ReadLine();
+            }
+
+            int totalCountOrderByState = statisticsService.GetOrderCountByState(orderStateNumberForStatistics);
+            
+            AddNewEmptyLine();
+            
+            Console.WriteLine($"Общее количество заказов: {totalCountOrderByState} со статусом: {GetStringOrderState(orderStateNumberForStatistics)}");
+            
+            break;
         default:
             Console.WriteLine("Неизвестная команда!");
             break;
@@ -590,8 +635,7 @@ ClientDto? CreateClient()
         Password = password
     };
 
-    var newClient = clientService.CreateClient(clientDto);
-
+    ClientDto? newClient = clientService.CreateClient(clientDto);
     return newClient;
 }
 
@@ -674,12 +718,45 @@ static string GetAvailableCommands()
     {9 - обновить клиента по ID},
     {10 - удалить клиента},
     {11 - обновить заказ по ID},
-    {12 - удалить заказ }'
-    {13 - изменить статус заказа}";
+    {12 - удалить заказ },
+    {13 - изменить статус заказа},
+    {14 - Общее количество созданных заказов},
+    {15 - Oбщее количество созданных клиентов},
+    {16 - Количество заказов по статусу}";
 
 }
 
 static void AddNewEmptyLine()
 {
     Console.WriteLine();
+}
+
+static string? GetStringOrderState(int stateNumeric)
+{
+    switch (stateNumeric)
+    {
+        case  1:
+            return "Pending";
+        case 2: 
+            return "Approved";
+        case 3:
+            return "Cancelled";
+        default:
+            return null;
+    }
+}
+
+static string? GetStringDeliveryType(int deliverTypeNumeric)
+{
+    switch(deliverTypeNumeric)
+    {
+        case 1:
+            return "Express";
+        case 2: 
+            return "Standart";
+        case 3:
+            return "Free";
+        default:
+            return null;
+    }
 }

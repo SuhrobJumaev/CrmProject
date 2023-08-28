@@ -15,5 +15,8 @@ public enum CommandsType : short
     UpdateOrderById = 11,
     DeleteOrder = 12,
     UpdateOrderStatus = 13,
+    TotalCountOrder = 14,
+    TotalCountClient = 15,
+    TotalCountOrderByState =16,
 
 }

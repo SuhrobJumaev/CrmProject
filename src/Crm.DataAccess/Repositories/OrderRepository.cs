@@ -4,8 +4,8 @@ namespace Crm.DataAccess;
 
 public class OrderRepository : IOrderRepository
 {
-    private readonly List<Order> _ordersList = new();
-    private int _id = 0;
+    private static readonly List<Order> _ordersList = new();
+    private static int _id = 0;
 
     public Order Create(Order entity)
     {
@@ -42,6 +42,15 @@ public class OrderRepository : IOrderRepository
     public List<Order> GetOrderByDescription(string description)
     {
         return _ordersList.Where(o => o.Description == description).ToList();
+    }
+
+    public int GetOrderTotalCount() => _ordersList.Count();
+
+    public int GetOrderTotalCountByState(OrderState state)
+    {
+        List<Order> orders = _ordersList.Where(o => o.OrderState == state).ToList();
+
+        return orders.Count(); 
     }
 
     public bool UpdateOrderById(int id, string description)

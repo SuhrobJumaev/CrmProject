@@ -1,14 +1,15 @@
 namespace Crm.DataAccess;
 
-class ClientRepository : IClientRepository
+public class ClientRepository : IClientRepository
 {
-    private readonly List<Client> _clientsList = new();
-    private int _id;
+    private static readonly List<Client> _clientsList = new();
+    private static int _id = 0;
 
     public Client Create(Client entity)
     {
         entity.Id = NextId();
         _clientsList.Add(entity);
+             
         return entity;
     }
 
@@ -39,6 +40,8 @@ class ClientRepository : IClientRepository
         List<Client> clients = _clientsList.Where(c => c.FirstName == name && c.LastName == surname).ToList();
         return clients;
     }
+
+    public int GetClientTotalCount() => _clientsList.Count();
 
     public bool UpdateClientById(int id, string name, string surname)
     {
