@@ -41,7 +41,7 @@ public class Order
         init => _deliveryAddress = value is { Length: > 0 } ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 
-    public required OrderState? OrderState
+    public  OrderState? OrderState
     {
         get => _orderState ?? null;
         set => _orderState = value is not null ? value : throw new ArgumentOutOfRangeException(nameof(value));

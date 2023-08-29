@@ -1,4 +1,4 @@
-﻿namespace Crm.DataAccess;
+namespace Crm.BusinessLogic;
 
 public readonly struct ClientDto
 {
@@ -8,7 +8,7 @@ public readonly struct ClientDto
     public string? MiddleName { get; init; }
     public short Age { get; init; }
     public string PassportNumber { get; init; }
-    public Gender Gender { get; init; }
+    public int Gender { get; init; }
     public string Phone { get; init; }
     public string Email { get; init; }
     public string Password { get; init; }
