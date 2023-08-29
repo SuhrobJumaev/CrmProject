@@ -1,7 +1,7 @@
 namespace Crm.DataAccess;
 
-public class ClientRepository : IClientRepository
-{
+public sealed class ClientRepository : IClientRepository
+{ 
     private static readonly List<Client> _clientsList = new();
     private static int _id = 0;
 

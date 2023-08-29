@@ -5,9 +5,9 @@ using Crm.DataAccess;
 public interface IOrderService
 {
     OrderDto? CreateOrder(OrderDto orderDto);
-    List<OrderDto>? GetOrderByDescription(string description);
+    IEnumerable<OrderDto>? GetOrderByDescription(string description);
     OrderDto? GetOrderById(int id);
-    List<OrderDto>? GetListCreatedOrders();
+    IEnumerable<OrderDto>? GetListCreatedOrders();
     bool UpdateOrderById(int id, string description);
     bool UpdateOrderStateById (int id, int state);
     bool DeleteOrder(int id);

@@ -19,7 +19,7 @@ public class OrderService : IOrderService
         return order.OrderToOrderDto();
     }
 
-    public List<OrderDto>? GetOrderByDescription(string description)
+    public IEnumerable<OrderDto>? GetOrderByDescription(string description)
     {
         List<Order> orders = _orderRepository.GetOrderByDescription(description);
         
@@ -39,7 +39,7 @@ public class OrderService : IOrderService
         return order.OrderToOrderDto();
     }
 
-    public List<OrderDto>? GetListCreatedOrders()
+    public IEnumerable<OrderDto>? GetListCreatedOrders()
     {
         List<Order> orders = _orderRepository.GetAll();
 

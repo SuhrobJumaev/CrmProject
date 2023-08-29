@@ -37,9 +37,9 @@ public static class ClientMapper
         };
     }
 
-    public static List<ClientDto> ClientListToClientDtoList(this List<Client> clients)
+    public static IEnumerable<ClientDto> ClientListToClientDtoList(this List<Client> clients)
     {
-        List<ClientDto> clientsDto = new();
+        IEnumerable<ClientDto> clientsDto = null;
 
         clientsDto = clients.Select(c => new ClientDto
         {

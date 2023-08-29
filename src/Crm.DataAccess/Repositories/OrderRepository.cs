@@ -2,7 +2,7 @@ using Crm.DataAccess;
 
 namespace Crm.DataAccess;
 
-public class OrderRepository : IOrderRepository
+public sealed class OrderRepository : IOrderRepository
 {
     private static readonly List<Order> _ordersList = new();
     private static int _id = 0;

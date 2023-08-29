@@ -29,9 +29,9 @@ public static class OrderMapper
             OrderState = (int)order.OrderState,
         };
     }   
-    public static List<OrderDto> OrderListToOrderDtoList(this List<Order> orders)
+    public static IEnumerable<OrderDto> OrderListToOrderDtoList(this List<Order> orders)
     {
-        List<OrderDto> ordersDto = new();
+        IEnumerable<OrderDto> ordersDto = null;
 
         ordersDto = orders.Select(c => new OrderDto
         {

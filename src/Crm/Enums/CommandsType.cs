@@ -1,4 +1,4 @@
-namespace Crm.Enums;
+﻿namespace Crm.Enums;
 
 public enum CommandsType : short
 {
@@ -17,6 +17,6 @@ public enum CommandsType : short
     UpdateOrderStatus = 13,
     TotalCountOrder = 14,
     TotalCountClient = 15,
-    TotalCountOrderByState =16,
+    TotalCountOrderByState = 16,
 
 }

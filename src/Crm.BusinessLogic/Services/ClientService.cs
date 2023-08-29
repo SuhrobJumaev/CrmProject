@@ -22,7 +22,7 @@ public sealed class ClientService : IClientService
         return client.ClientToClientDto();
     }
 
-    public List<ClientDto>? GetListAllCreatedClients()
+    public IEnumerable<ClientDto>? GetListAllCreatedClients()
     {
         List<Client> clients = _clientRepository.GetAll();
 
@@ -32,7 +32,7 @@ public sealed class ClientService : IClientService
         return clients.ClientListToClientDtoList();
     }
 
-    public List<ClientDto>? GetClientByNameAndSurname(string firstName, string lastName)
+    public IEnumerable<ClientDto>? GetClientByNameAndSurname(string firstName, string lastName)
     {
         List<Client> clients = _clientRepository.GetClientByNameAndSurname(firstName, lastName);
 
