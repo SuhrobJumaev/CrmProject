@@ -6,7 +6,7 @@ public static class OrderServiceFactory
 {
     public static IOrderService CreateOrderService()
     {
-        IOrderRepository orderRepository = new OrderRepository();
+        IOrderRepository orderRepository = new PosgreSqlOrderRepository();
         return new OrderService(orderRepository);
     }
 }

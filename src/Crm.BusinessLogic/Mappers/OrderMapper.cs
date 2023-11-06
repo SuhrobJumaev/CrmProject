@@ -26,7 +26,7 @@ public static class OrderMapper
             OrderDate = order.OrderDate,
             DeliveryType = (int)order.DeliveryType,
             DeliveryAddress = order.DeliveryAddress,
-            OrderState = (int)order.OrderState,
+            OrderState = (int)(order.OrderState ?? OrderState.Pending),
         };
     }   
     public static IEnumerable<OrderDto> OrderListToOrderDtoList(this List<Order> orders)

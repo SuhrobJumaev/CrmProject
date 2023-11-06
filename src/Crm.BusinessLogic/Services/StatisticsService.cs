@@ -15,7 +15,7 @@ public class StaticticsService : IStatisticsService
 
     public int GetClientsCount() => _clientRepository.GetClientTotalCount();
     
-    public int GetOrderCount() => _orderRepository.GetOrderTotalCount();
+    public async ValueTask<long> GetOrderCountAsync() => await _orderRepository.GetOrderTotalCountAsync();
 
-    public int GetOrderCountByState(int orderState) =>  _orderRepository.GetOrderTotalCountByState((OrderState)orderState);
+    public async ValueTask<long> GetOrderCountByStateAsync(int orderState) => await _orderRepository.GetOrderTotalCountByStateAnsync((OrderState)orderState);
 }

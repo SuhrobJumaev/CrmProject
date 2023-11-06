@@ -56,7 +56,7 @@ while (command != CommandsType.Exit)
 
         case CommandsType.CreateOrder:
 
-            OrderDto? order = CreateOrder();
+            OrderDto? order = await CreateOrder();
 
             if (order == null)
             {
@@ -117,7 +117,7 @@ while (command != CommandsType.Exit)
             break;
 
         case CommandsType.ListCreatedOrders:
-            var orders = orderService.GetListCreatedOrders();
+            var orders = await orderService.GetListCreatedOrdersAsync();
 
             if (orders == null)
             {
@@ -225,7 +225,7 @@ while (command != CommandsType.Exit)
                 description = Console.ReadLine();
             }
 
-            var foundOrders = orderService.GetOrderByDescription(description);
+            var foundOrders = await orderService.GetOrderByDescriptionAsync(description);
 
             if (foundOrders == null)
             {
@@ -274,7 +274,7 @@ while (command != CommandsType.Exit)
                 idString = Console.ReadLine();
             }
 
-            var foundOrder = orderService.GetOrderById(id);
+            var foundOrder = await orderService.GetOrderByIdAsync(id);
 
             if (foundOrder == null)
             {
@@ -396,7 +396,7 @@ while (command != CommandsType.Exit)
                 orderDescription = Console.ReadLine();
             }
 
-            bool isUpdatedOrder = orderService.UpdateOrderById(orderId, orderDescription);
+            bool isUpdatedOrder = await orderService.UpdateOrderByIdAsync(orderId, orderDescription);
 
             if (!isUpdatedOrder)
             {
@@ -423,7 +423,7 @@ while (command != CommandsType.Exit)
                 orderIdForRemoveString = Console.ReadLine();
             }
 
-            var resultRemove = orderService.DeleteOrder(orderIdForRemove);
+            var resultRemove = await orderService.DeleteOrderAsync(orderIdForRemove);
 
             if (resultRemove == false)
             {
@@ -461,7 +461,7 @@ while (command != CommandsType.Exit)
                 orderStateString = Console.ReadLine();
             }
 
-            bool isUpdatedOrderState = orderService.UpdateOrderStateById(idForUpdateState, orderStateNumber);
+            bool isUpdatedOrderState = await orderService.UpdateOrderStateByIdAsync(idForUpdateState, orderStateNumber);
 
             if (!isUpdatedOrderState)
             {
@@ -475,7 +475,7 @@ while (command != CommandsType.Exit)
 
         case CommandsType.TotalCountOrder:
 
-            int totalCountOrders = statisticsService.GetOrderCount();
+            long totalCountOrders = await statisticsService.GetOrderCountAsync();
 
             FunctionsHelper.AddNewEmptyLine();
 
@@ -507,7 +507,7 @@ while (command != CommandsType.Exit)
                 orderStateStringForStatistics = Console.ReadLine();
             }
 
-            int totalCountOrderByState = statisticsService.GetOrderCountByState(orderStateNumberForStatistics);
+            long totalCountOrderByState = await statisticsService.GetOrderCountByStateAsync(orderStateNumberForStatistics);
 
             FunctionsHelper.AddNewEmptyLine();
 
@@ -630,7 +630,7 @@ ClientDto? CreateClient()
     return newClient;
 }
 
-OrderDto? CreateOrder()
+async Task<OrderDto?> CreateOrder()
 {
     Console.WriteLine("Описания заказа: ");
     var description = Console.ReadLine();
@@ -689,7 +689,7 @@ OrderDto? CreateOrder()
         DeliveryAddress = deliveryAddress,
     };
 
-    var newOrder = orderService.CreateOrder(orderDto);
+    var newOrder = await orderService.CreateOrderAsync(orderDto);
 
     return newOrder;
 }

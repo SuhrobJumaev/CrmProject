@@ -7,7 +7,7 @@ public static class StatisticsServiceFactory
     public static IStatisticsService CreateStatisticsService()
     {
         IClientRepository clientRepository = new ClientRepository();
-        IOrderRepository orderRepository = new OrderRepository();
+        IOrderRepository orderRepository = new PosgreSqlOrderRepository();
         return new StaticticsService(clientRepository, orderRepository);
     }
 }

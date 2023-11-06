@@ -1,37 +1,42 @@
 ﻿namespace Crm.BusinessLogic;
 using Crm.DataAccess;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class OrderService : IOrderService
 {
-    private readonly IOrderRepository _orderRepository;
-    public OrderService(IOrderRepository orderRepository)
+   
+    private IOrderRepository _posgreSqlOrderRepository;
+
+    public OrderService(IOrderRepository posgreSqlOrderRepository)
     {
-        _orderRepository = orderRepository;
+        _posgreSqlOrderRepository = posgreSqlOrderRepository;
     }
 
-    public OrderDto? CreateOrder(OrderDto orderDto)
+    public async Task<OrderDto?> CreateOrderAsync(OrderDto orderDto, CancellationToken token = default)
     {
-        Order order = _orderRepository.Create(orderDto.OrderDtoToOrder());
-        
-        if(order is null)
+        Order order = await _posgreSqlOrderRepository.CreateAsync(orderDto.OrderDtoToOrder(), token);
+
+        if (order is null)
             return null;
 
         return order.OrderToOrderDto();
     }
 
-    public IEnumerable<OrderDto>? GetOrderByDescription(string description)
+    public async Task<IEnumerable<OrderDto>>? GetOrderByDescriptionAsync(string description, CancellationToken token = default)
     {
-        List<Order> orders = _orderRepository.GetOrderByDescription(description);
+        List<Order> orders = await _posgreSqlOrderRepository.GetOrderByDescriptionAsync(description, token);
         
-        if(orders is null)
+        if(orders.Count() <= 0)
             return null;
 
         return  orders.OrderListToOrderDtoList();
     }
 
-    public OrderDto? GetOrderById(int id)
+    public async Task<OrderDto?> GetOrderByIdAsync(int id, CancellationToken token = default)
     {
-        Order order = _orderRepository.Get(id);
+
+        Order order = await _posgreSqlOrderRepository.GetAsync(id, token);
         
         if(order is null)
             return null;
@@ -39,30 +44,30 @@ public class OrderService : IOrderService
         return order.OrderToOrderDto();
     }
 
-    public IEnumerable<OrderDto>? GetListCreatedOrders()
+    public async Task<IEnumerable<OrderDto>>? GetListCreatedOrdersAsync(CancellationToken token = default)
     {
-        List<Order> orders = _orderRepository.GetAll();
+        List<Order> orders = await _posgreSqlOrderRepository.GetAllAsync(token);
 
-        if(orders is null)
+        if (orders.Count() <= 0)
             return null;
-        
+
         return orders.OrderListToOrderDtoList();
     }
 
-    public bool UpdateOrderById(int id, string description)
+    public async ValueTask<bool> UpdateOrderByIdAsync(int id, string description, CancellationToken token = default)
     {
-        return _orderRepository.UpdateOrderById(id, description);
+        return await _posgreSqlOrderRepository.UpdateOrderByIdAsync(id, description, token);
     }
 
-    public bool DeleteOrder(int id)
+    public async ValueTask<bool> DeleteOrderAsync(int id, CancellationToken token = default)
     {
-        return _orderRepository.Delete(id);
+        return await _posgreSqlOrderRepository.DeleteAsync(id, token);
     }
     
-    public bool UpdateOrderStateById(int id, int state)
+    public async ValueTask<bool> UpdateOrderStateByIdAsync(int id, int state, CancellationToken token = default)
     {
         OrderState orderState = (OrderState)state;
         
-        return _orderRepository.UpdateOrderStateById(id, orderState);
+        return await _posgreSqlOrderRepository.UpdateOrderStateByIdAsync(id, orderState, token);
     }
 }
