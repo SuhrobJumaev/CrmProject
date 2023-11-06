@@ -1,3 +1,4 @@
+
 namespace Crm.DataAccess;
 
 public sealed class ClientRepository : IClientRepository
@@ -13,6 +14,11 @@ public sealed class ClientRepository : IClientRepository
         return entity;
     }
 
+    public Task<Client> CreateAsync(Client entity, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool Delete(int id)
     {
         Client client  = _clientsList.FirstOrDefault(c => c.Id == id); 
@@ -25,6 +31,11 @@ public sealed class ClientRepository : IClientRepository
         return  _clientsList.Remove(client);
     }
 
+    public ValueTask<bool> DeleteAsync(int id, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public Client? Get(int id)
     {
         return _clientsList.FirstOrDefault(c => c.Id == id);
@@ -33,6 +44,16 @@ public sealed class ClientRepository : IClientRepository
     public List<Client> GetAll()
     {
         return _clientsList;
+    }
+
+    public Task<List<Client>> GetAllAsync(CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Client>? GetAsync(int id, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
     }
 
     public List<Client> GetClientByNameAndSurname(string name, string surname)

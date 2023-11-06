@@ -16,7 +16,6 @@ public sealed class OrderRepository : IOrderRepository
 
         return entity;
     }
-
     public bool Delete(int id)
     {
         Order order = _ordersList.FirstOrDefault(c => c.Id == id);
@@ -45,7 +44,7 @@ public sealed class OrderRepository : IOrderRepository
     }
 
     public int GetOrderTotalCount() => _ordersList.Count();
-
+   
     public int GetOrderTotalCountByState(OrderState state)
     {
         List<Order> orders = _ordersList.Where(o => o.OrderState == state).ToList();
@@ -80,6 +79,53 @@ public sealed class OrderRepository : IOrderRepository
        
         return true;
     }
+
+
+    public Task<Order> CreateAsync(Order entity, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask<bool> DeleteAsync(int id, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask<bool> UpdateOrderStateByIdAsync(int id, OrderState state, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Order>> GetAllAsync(CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Order>? GetAsync(int id, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask<long> GetOrderTotalCountAsync(CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask<bool> UpdateOrderByIdAsync(int id, string description, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public ValueTask<long> GetOrderTotalCountByStateAnsync(OrderState state, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Order>> GetOrderByDescriptionAsync(string description, CancellationToken token = default)
+    {
+        throw new NotImplementedException();
+    }
+
     private int NextId()
     {
         return ++_id;
